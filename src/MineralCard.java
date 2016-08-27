@@ -1,5 +1,6 @@
 /**
- * Created by Darcie on 26/08/2016.*/
+ * Created by Darcie on 26/08/2016.
+ **/
 public class MineralCard extends Card{
 
     public MineralCard(String title, String chemistry, String classification,

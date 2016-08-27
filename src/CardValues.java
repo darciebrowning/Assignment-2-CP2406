@@ -5,7 +5,7 @@ public class CardValues {
 
     public Card [] cards;
 
-    public void CardDeck() { //create deck of cards with trumps spread out
+    public Card[] CardDeck() { //create deck of cards with trumps spread out
 
         cards = new Card[60];
 
@@ -24,7 +24,7 @@ public class CardValues {
         cards[4] = new MineralCard("Muscovite", "KAl3Si3O10(OH)2", "phyllosilicate", "monoclinic",
                 "igneous metamorphic", 3.0, 2.9, "1 perfect", "moderate", "moderate");
 
-        cards[5] = new TrumpCard("The Miner", "Economic Value");
+       // cards[5] = new TrumpCard("The Miner", "Economic Value");
 
         cards[6] = new MineralCard("Hornblende", "Ca2(Mg,Fe)4Al2Si7O22(OH)2", "inosilicate", "monoclinic",
                 "igneous metamorphic", 6.0, 3.5, "2 good", "moderate", "trivial");
@@ -53,7 +53,7 @@ public class CardValues {
         cards[14] = new MineralCard("Orthopyroxene", "(Mg,Fe)2Si2O6", "inosilicate", "orthorombic",
                 "igneous metamorphic mantle", 6.0, 3.9, "2 good", "high", "trivial");
 
-        cards[15] = new TrumpCard("The Petrologist", "Crustal Abundance");
+        //cards[15] = new TrumpCard("The Petrologist", "Crustal Abundance");
 
 
         cards[16] = new MineralCard("Chlorite", "(Mg,Fe)5Al2Si3O10(OH)8", "phyllosilicate", "monoclinic",
@@ -83,7 +83,7 @@ public class CardValues {
         cards[24] = new MineralCard("Epidote", "Ca2(Al,Fe)3Si3O12(OH)", "sorosilicate", "monoclinic",
                 "igneous metamorphic", 6.5, 3.5, "1 perfect", "moderate", "trivial");
 
-        cards[25] = new TrumpCard("The Gemmologist", "Hardness");
+        //cards[25] = new TrumpCard("The Gemmologist", "Hardness");
 
         cards[26] = new MineralCard("Tourmaline", "Na(Mg,Fe)3Al6B3Si6O27(OH)4", "cyclosilicate", "hexagonal",
                 "metamorphic", 7.5, 3.2, "2 poor", "trace", "moderate");
@@ -112,7 +112,7 @@ public class CardValues {
         cards[34] = new MineralCard("Molybdenite", "MoS2", "sulfide", "hexagonal",
                 "igneous metamorphic", 1.5, 4.7, "1 perfect", "trace", "high");
 
-        cards[35] = new TrumpCard("The Mineralogist", "Cleavage");
+        //cards[35] = new TrumpCard("The Mineralogist", "Cleavage");
 
         cards[36] = new MineralCard("Gold", "Au", "native element", "isometric",
                 "metamorphic sedimentary", 3.0, 19.3, "none", "ultratrace", "I'm rich!");
@@ -141,7 +141,7 @@ public class CardValues {
         cards[44] = new MineralCard("Monazite", "(La,Ce,Nd)PO4", "phosphate", "monoclinic",
                 "igneous metamorphic sedimentary", 5.0, 5.3, "1 good, 1 poor", "trace", "moderate");
 
-        cards[45] = new TrumpCard("The Geophysicist", "Specific gravity or Magnetite");
+        //cards[45] = new TrumpCard("The Geophysicist", "Specific gravity or Magnetite");
 
         cards[46] = new MineralCard("Calcite", "CaCO3", "carbonate", "hexagonal",
                 "igneous metamorphic sedimentary", 3.0, 2.7, "3 perfect", "moderate", "high");
@@ -170,7 +170,7 @@ public class CardValues {
         cards[54] = new MineralCard("Rutile", "TiO2", "oxide", "tetragonal",
                 "metamorphic sedimentary", 6.5, 4.3, "2 good", "low", "high");
 
-        cards[55] = new TrumpCard("The Geologist", "Any");
+        //cards[55] = new TrumpCard("The Geologist", "Any");
 
         cards[56] = new MineralCard("Corundum", "Al2O3", "oxide", "hexagonal",
                 "metamorphic sedimentary", 9.0, 4.0, "none", "trace", "moderate");
@@ -183,5 +183,11 @@ public class CardValues {
 
         cards[59] = new MineralCard("Geothite", "FeO(OH)", "hydroxide", "orthorhombic",
                 "sedimentary", 5.5, 4.3, "1 perfect, 1 good", "moderate", "moderate");
+
+        return cards;
+    }
+
+    public void ShuffleCards(){
+
     }
 }
