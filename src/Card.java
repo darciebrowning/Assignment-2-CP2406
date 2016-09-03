@@ -31,5 +31,14 @@ public class Card {
         cardEconomicValue = economicValue;
     }
 
+    public Card(String title, String economicValue){
+        cardTitle = title;
+        cardEconomicValue = economicValue;
+    }
+
+    public String toString(){
+        return "cardTitle= " + cardTitle + " ," + cardChemistry;
+    }
+
 }
 

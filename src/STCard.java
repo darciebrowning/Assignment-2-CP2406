@@ -1,7 +1,9 @@
-import java.util.*;
-import java.util.concurrent.ThreadLocalRandom;
+import java.util.ArrayList;
 
-public class CardValues {
+/**
+ * Created by Darcie on 3/09/2016.
+ */
+public class STCard {
 
     public Card [] cards;
     public ArrayList<STCard> card;
@@ -187,26 +189,4 @@ public class CardValues {
 
         return cards;
     }
-
-    static void shuffleArray(Card[] cards)
-    {
-        // If running on Java 6 or older, use `new Random()` on RHS here
-        Random rnd = ThreadLocalRandom.current();
-        for (int i = cards.length - 1; i > 0; i--)
-        {
-            int index = rnd.nextInt(i + 1);
-            // Simple swap
-            Card a = cards[index];
-            cards[index] = cards[i];
-            cards[i] = a;
-        }
-    }
-
-    public ArrayList<STCard> dealCards(int i){
-
-        return null;
-    }
-
-
-
 }
