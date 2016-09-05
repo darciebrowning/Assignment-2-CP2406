@@ -9,17 +9,20 @@ public class SuperTrumpGame {
     private  int numberPlayers;
     public int dealerNumber;
     private Player[] players;
-    private STDeck deck;
+    public STDeck cards;
+    public STDeck deck;
 
     public SuperTrumpGame(int numberPlayers){
         this.numberPlayers = numberPlayers;
+        this.deck = new STDeck();
+
     }
 
     public int selectDealer(int NumberOfPlayers){
         int min = 1;
         Random generator = new Random();
         dealerNumber = generator.nextInt(NumberOfPlayers - min + 1) + min;
-        //// TODO: 3/09/2016  get random int value in java
+
         return dealerNumber;
     }
 
@@ -28,7 +31,7 @@ public class SuperTrumpGame {
         players = new Player[numberPlayers];
 
         for (Player player : players){
-            ArrayList<STCard> card = deck.dealCards(NUMBER_CARDS_DEAL);
+            ArrayList<STCard> card = cards.dealCards(NUMBER_CARDS_DEAL);
 
 
         }

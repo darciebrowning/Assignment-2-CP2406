@@ -4,9 +4,8 @@ import java.util.concurrent.ThreadLocalRandom;
 public class CardValues {
 
     public Card [] cards;
-    public ArrayList<STCard> card;
 
-    public Card[] CardDeck() { //create deck of cards with trumps spread out
+    public void CardDeck() { //create deck of cards with trumps spread out
 
         cards = new Card[60];
 
@@ -185,7 +184,6 @@ public class CardValues {
         cards[59] = new MineralCard("Geothite", "FeO(OH)", "hydroxide", "orthorhombic",
                 "sedimentary", 5.5, 4.3, "1 perfect, 1 good", "moderate", "moderate");
 
-        return cards;
     }
 
     static void shuffleArray(Card[] cards)

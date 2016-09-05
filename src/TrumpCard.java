@@ -6,4 +6,8 @@ public class TrumpCard extends Card{
     public TrumpCard(String title, String economicValue){
         super(title, economicValue);
     }
+
+    public String toString(){
+        return "cardTitle= " + cardTitle + " ," + cardChemistry;
+    }
 }

@@ -1,23 +1,17 @@
-
-import java.lang.reflect.Array;
-import java.util.Arrays;
-import java.util.List;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Scanner;
-import java.util.Arrays;
-import java.util.*;
-
-import com.sun.codemodel.internal.CodeWriter;
-
-
 
 /**
  * Created by Darcie on 27/08/2016.
+ *
  */
+
 public class Game {
 
     public static void main(String args[]) {
 
-        showWelocome();
+        showWelcome();
         showMenu();
         int opt = getUserMenuChoice();
 
@@ -25,18 +19,24 @@ public class Game {
             System.out.println("You have started a new game.");
             startNewGame();
         }
-
+        else {
+            System.exit(0);
+        }
 
 
     }
 
     private static void startNewGame(){
         int numberOfPlayers = getNumberPlayers();
+        ArrayList<Card> cards = new ArrayList<Card>();
         SuperTrumpGame game = new SuperTrumpGame(numberOfPlayers);
-        System.out.print("You have chosen to play a game with " + numberOfPlayers + " players. \n");
+        System.out.print("You have chosen to play against " + numberOfPlayers + " players. \n");
         game.selectDealer(numberOfPlayers);
         System.out.print("The dealer is player number " + game.dealerNumber + ". \n");
-        //game.dealCards();
+        STDeck deck = new STDeck();
+
+        dealCards(deck, numberOfPlayers);
+
     }
 
     private static int getNumberPlayers(){
@@ -46,11 +46,12 @@ public class Game {
         System.out.println("Enter your choice: ");
         int n = reader.nextInt();
 
-        while (n <= 2 || n >= 6) {
-            System.out.println("How many players would you like to play with?");
+        //Check that the users input is valid number between 3 and 5 players.
+        while (n <= 2 || n >= 5) {
+            System.out.println("How many players would you like to play against?");
             Scanner reader2 = new Scanner(System.in);
             System.out.println("Enter your choice: ");
-            n = reader.nextInt();
+            n = reader2.nextInt();
         }
         return n;
 
@@ -68,8 +69,12 @@ public class Game {
         System.out.println("2. Exit.");
     }
 
-    private static void showWelocome() {
+    private static void showWelcome() {
         System.out.print("Welcome to Mineral SuperTrumps! What would you like to do? \n");
+    }
+
+    public static void dealCards(STDeck Deck, int numberOfPlayers) {
+        System.out.println(Deck);
     }
 }
 
