@@ -9,6 +9,7 @@ import java.util.concurrent.ThreadLocalRandom;
  */
 public class STDeck {
     private ArrayList<Card> cards;
+    public ArrayList<Card> playedCards;
 
     //// TODO: 3/09/2016 list of all cards
 
@@ -16,6 +17,7 @@ public class STDeck {
 
     public STDeck() {
         cards = new ArrayList<Card>();
+        playedCards = new ArrayList<Card>();
         initSTDeck();
         shuffleArray();
     }
@@ -138,14 +140,6 @@ public class STDeck {
         cards.add(new MineralCard("Geothite", "FeO(OH)", "hydroxide", "orthorhombic",
                 "sedimentary", 5.5, 4.3, "1 perfect, 1 good", "moderate", "moderate"));
 
-
-        //cards = new ArrayList<STCard>(NUMBER_OF_CARDS);
-
-
-        //for (int i = 0; i < NUMBER_OF_CARDS; i++) {
-          //       cards.add(new STCard());
-            // google how to create random array of integers
-
     }
 
     public String toString(){
@@ -158,8 +152,13 @@ public class STDeck {
         return cards;
         }
 
-    public ArrayList<STCard> dealCards(int i){
-        // // TODO: 4/09/2016 Return 8 cards randomly chosen
-        return null;
+    public ArrayList dealCards(){
+        ArrayList hand = new ArrayList<>();
+
+        for(int i = 0; i < 8; i++){
+            hand.add(cards.get(0));
+            cards.remove(0);
+        }
+        return hand;
     }
 }
