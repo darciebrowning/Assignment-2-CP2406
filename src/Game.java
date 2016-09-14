@@ -1,6 +1,4 @@
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.NavigableMap;
 import java.util.Scanner;
 
 /**
@@ -36,15 +34,25 @@ public class Game {
         game.dealHand(numberOfPlayers);
         int firstPlayer = game.determineFirstPlayer(game.dealerNumber, numberOfPlayers);
         System.out.println("Player " + firstPlayer + " is playing the first card.");
-        if (firstPlayer == 1){
-            game.firstPlayerTurn(game.attribute);
+
+        game.printHand();
+        game.firstPlayerTurn();
+        game.printHand();
+        game.playerTurn();
+       /** if (firstPlayer == 1){
+            game.printHand();
+            game.firstPlayerTurn();
         }
         else {
-            game.FirstBotTurn(firstPlayer, game.attribute);
+            game.FirstBotTurn(firstPlayer);
+            System.out.println(game.attribute);
         }
 
-        
+        game.printHand();
+        System.out.println("It's your turn");
+        game.playerTurn();
 
+*/
     }
 
     private static int getNumberPlayers() {

@@ -44,9 +44,6 @@ public class Card {
 
     }
 
-    public void compareAttribute(){
-
-    }
 
 }
 
