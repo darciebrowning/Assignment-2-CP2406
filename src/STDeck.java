@@ -7,11 +7,11 @@ import java.util.concurrent.ThreadLocalRandom;
  * Created by Darcie on 3/09/2016.
  *
  */
+
 public class STDeck {
     private ArrayList<Card> cards;
     public ArrayList<Card> playedCards;
-
-    //// TODO: 3/09/2016 list of all cards
+    public Card passCard;
 
 
 
@@ -160,5 +160,11 @@ public class STDeck {
             cards.remove(0);
         }
         return hand;
+    }
+
+    public Card playerTurnPass(){
+        this.passCard = cards.get(0);
+        cards.remove(0);
+    return this.passCard;
     }
 }
