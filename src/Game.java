@@ -35,7 +35,7 @@ public class Game {
         int firstPlayer = game.determineFirstPlayer(game.dealerNumber, numberOfPlayers);
         System.out.println("Player " + firstPlayer + " is playing the first card.");
 
-        if (firstPlayer == 1){
+       /** if (firstPlayer == 1){
             game.printHand();
             game.firstPlayerTurn();
             game.botTurn();
@@ -46,7 +46,11 @@ public class Game {
             game.playerTurn();
             game.botTurn();
 
-        }
+        }*/
+
+       game.printHand();
+        game.firstPlayerTurn();
+        game.botTurn();
 
     }
 

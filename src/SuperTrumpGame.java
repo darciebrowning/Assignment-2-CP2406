@@ -175,7 +175,7 @@ public class SuperTrumpGame {
                 break;
         }
 
-        switch (playedCardCrustalAbundance){
+        switch (playedCardEconomicValue){
             case "I'm rich":
                 playedAttributeCompare = 6;
                 break;
@@ -377,11 +377,13 @@ public class SuperTrumpGame {
     }
 
     public String playerTurn(){
-        System.out.println("The current attribute is:" + currentAttribute);
+        System.out.println("The current attribute is: " + currentAttribute);
         getPlayedCardAttributeValue();
         System.out.println("The played card attribute value is " + playedCardHardness + playedCardCleavage + playedCardEconomicValue + playedCardSpecificGravity + playedCardCrustalAbundance);
 
         Scanner playerChoice = new Scanner(System.in);
+        System.out.println("Here is your hand:");
+        printHand();
         System.out.println("Would you like to play your turn or pass? \n 1. Play turn \n 2. Pass");
         int CardChoice = Integer.parseInt(playerChoice.next());
         if (CardChoice == 1) {
@@ -394,6 +396,7 @@ public class SuperTrumpGame {
             attributeCleavage = chosenCard.cardCleavage;
             attributeCrustalAbundance = chosenCard.cardCrystalAbundance;
             attributeEconomicValue = chosenCard.cardCrystalAbundance;
+
 
             if (chosenCard.getClass() == TrumpCard.class) {
                 if (chosenCard.cardTitle.equals("The miner")) {
@@ -536,6 +539,8 @@ public class SuperTrumpGame {
                     compareCardsEconomicValue();
                 }
             }
+
+            System.out.println("Player 1 has played card: " + players[0].playerHand.get(CardChoice));
         }
         else {
             System.out.println("You have picked up ");
@@ -633,9 +638,77 @@ public class SuperTrumpGame {
         getPlayedCardAttributeValue();
 
         if (currentAttribute.equals("Hardness")){
-
+            for (int i = 0; i < 1 ; i++) {
+                Card chosenCard = players[2].playerHand.get(i);
+                attributeHardness = chosenCard.cardHardness;
+                if (attributeHardness > playedCardHardness){
+                    players[2].playerHand.remove(chosenCard);
+                    deck.playedCards.add(chosenCard);
+                    System.out.println("Bot played: " + chosenCard);
+                    players[2].playerHand.remove(chosenCard);
+                    deck.playedCards.add(chosenCard);
+                    playedCardHardness = chosenCard.cardHardness;
+                }
+            }
+        }
+        else if (currentAttribute.equals("Specific Gravity")){
+            for (int i = 0; i < 1 ; i++) {
+                Card chosenCard = players[2].playerHand.get(i);
+                attributeSpecificGravity = chosenCard.cardSpecificGravity;
+                if (attributeSpecificGravity > playedCardSpecificGravity){
+                    players[2].playerHand.remove(chosenCard);
+                    deck.playedCards.add(chosenCard);
+                    System.out.println("Bot played: " + chosenCard);
+                    players[2].playerHand.remove(chosenCard);
+                    deck.playedCards.add(chosenCard);
+                    playedCardSpecificGravity = chosenCard.cardSpecificGravity;
+                }
+            }
+        }
+        else if (currentAttribute.equals("Cleavage")){
+            for (int i = 0; i < 1 ; i++) {
+                Card chosenCard = players[2].playerHand.get(i);
+                attributeCleavage = chosenCard.cardCleavage;
+                if (compareCardsCleavage() == true){
+                    players[2].playerHand.remove(chosenCard);
+                    deck.playedCards.add(chosenCard);
+                    System.out.println("Bot played: " + chosenCard);
+                    players[2].playerHand.remove(chosenCard);
+                    deck.playedCards.add(chosenCard);
+                    playedCardCleavage = chosenCard.cardCleavage;
+                }
+            }
         }
 
+        else if (currentAttribute.equals("Crustal Abundance")){
+            for (int i = 0; i < 1 ; i++) {
+                Card chosenCard = players[2].playerHand.get(i);
+                attributeCrustalAbundance= chosenCard.cardCrystalAbundance;
+                if (compareCardsCrustalAbundance() == true){
+                    players[2].playerHand.remove(chosenCard);
+                    deck.playedCards.add(chosenCard);
+                    System.out.println("Bot played: " + chosenCard);
+                    players[2].playerHand.remove(chosenCard);
+                    deck.playedCards.add(chosenCard);
+                    playedCardCrustalAbundance = chosenCard.cardCrystalAbundance;
+                }
+            }
+        }
+
+        else {
+            for (int i = 0; i < 1 ; i++) {
+                Card chosenCard = players[2].playerHand.get(i);
+                attributeEconomicValue = chosenCard.cardEconomicValue;
+                if (compareCardsEconomicValue() == true){
+                    players[2].playerHand.remove(chosenCard);
+                    deck.playedCards.add(chosenCard);
+                    System.out.println("Bot played: " + chosenCard);
+                    players[2].playerHand.remove(chosenCard);
+                    deck.playedCards.add(chosenCard);
+                    playedCardEconomicValue = chosenCard.cardEconomicValue;
+                }
+            }
+        }
 
     }
 }
