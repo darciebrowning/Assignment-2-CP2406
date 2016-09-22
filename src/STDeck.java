@@ -167,4 +167,15 @@ public class STDeck {
         cards.remove(0);
     return this.passCard;
     }
+
+    public boolean checkEmptyDeck(){
+        boolean deckHasCards;
+        if (cards.size() == 0){
+            System.out.println("The deck is out of cards. Game over");
+            deckHasCards = false;
+        }
+        else {deckHasCards = true;}
+
+        return deckHasCards;
+    }
 }

@@ -21,12 +21,11 @@ public class Game {
             System.exit(0);
         }
 
-
     }
 
     private static void startNewGame() {
         int numberOfPlayers = getNumberPlayers();
-        ArrayList<Card> cards = new ArrayList<Card>();
+        //ArrayList<Card> cards = new ArrayList<Card>();
         SuperTrumpGame game = new SuperTrumpGame(numberOfPlayers);
         System.out.print("You have chosen to play a game with " + numberOfPlayers + " players. \n");
         game.selectDealer(numberOfPlayers);
@@ -35,22 +34,30 @@ public class Game {
         int firstPlayer = game.determineFirstPlayer(game.dealerNumber, numberOfPlayers);
         System.out.println("Player " + firstPlayer + " is playing the first card.");
 
-       /** if (firstPlayer == 1){
+        if (firstPlayer == 1){
             game.printHand();
             game.firstPlayerTurn();
-            game.botTurn();
-            game.playerTurn();
         }
         else {
             game.firstBotTurn(firstPlayer);
-            game.playerTurn();
-            game.botTurn();
 
-        }*/
+        }
 
-       game.printHand();
-        game.firstPlayerTurn();
-        game.botTurn();
+
+
+        while (!game.gameIsover) {
+
+            for (int i = 0; i < game.players.length; i++) {
+                if (game.players[i].isHuman) {
+                    game.playerTurn();
+                } else {
+                    System.out.println("Player " + (i + 1) + " has played a turn:");
+                    game.botTurn(i);
+                }
+
+            }
+        }
+
 
     }
 
