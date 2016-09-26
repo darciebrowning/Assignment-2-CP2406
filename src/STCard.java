@@ -2,19 +2,19 @@
 /**
  * Created by Darcie on 3/09/2016.
  */
-public class STCard {
+class STCard {
 
 
-        public String cardTitle;
-        public String cardChemistry;
-        public String cardClassification;
-        public String cardCrystalSystem;
-        public String cardOccurrence;
-        public double cardHardness;
-        public double cardSpecificGravity;
-        public String cardCleavage;
-        public String cardCrystalAbundance;
-        public String cardEconomicValue;
+        private String cardTitle;
+        private String cardChemistry;
+        private String cardClassification;
+        private String cardCrystalSystem;
+        private String cardOccurrence;
+        private double cardHardness;
+        private double cardSpecificGravity;
+        private String cardCleavage;
+        private String cardCrystalAbundance;
+        private String cardEconomicValue;
 
         public STCard(String title, String chemistry, String classification,
                     String crystalSystem, String occurrence, double hardness,

@@ -1,12 +1,11 @@
-import java.util.ArrayList;
 import java.util.Scanner;
 
 /**
  * Created by Darcie on 27/08/2016.
- *
+ * contains the main function to run the SuperTrumps game.
  */
 
-public class Game {
+class Game {
 
     public static void main(String args[]) {
 
@@ -23,9 +22,8 @@ public class Game {
 
     }
 
-    private static void startNewGame() {
+    public static void startNewGame() {
         int numberOfPlayers = getNumberPlayers();
-        //ArrayList<Card> cards = new ArrayList<Card>();
         SuperTrumpGame game = new SuperTrumpGame(numberOfPlayers);
         System.out.print("You have chosen to play a game with " + numberOfPlayers + " players. \n");
         game.selectDealer(numberOfPlayers);
@@ -43,8 +41,29 @@ public class Game {
 
         }
 
+        //ensure the play starts at the right person.
+        if (firstPlayer == 1) {
+            for (int i = 1; i < game.players.length; i ++){
+                if (game.players[i].isHuman) {
+                    game.playerTurn();
+                } else {
+                    System.out.println("Player " + (i + 1) + " has played a turn:");
+                    game.botTurn(i);
+                }
+            }
+        }
+        else {
+            for (int i = firstPlayer; i < game.players.length; i ++){
+                if (game.players[i].isHuman) {
+                    game.playerTurn();
+                } else {
+                    System.out.println("Player " + (i + 1) + " has played a turn:");
+                    game.botTurn(i);
+                }
+            }
+        }
 
-
+        //controls the game until game over
         while (!game.gameIsover) {
 
             for (int i = 0; i < game.players.length; i++) {

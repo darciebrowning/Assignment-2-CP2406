@@ -1,19 +1,17 @@
-import javax.smartcardio.*;
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.Scanner;
 
 /**
  * Created by Darcie on 3/09/2016.
- *
+ * Methods that belong to the game.
  */
 
-public class SuperTrumpGame {
-    private  int numberPlayers;
-    public int dealerNumber;
-    public Player[] players;
+class SuperTrumpGame {
+    public  int numberPlayers;
+    int dealerNumber;
+    Player[] players;
     public STDeck deck;
-    public Card card;
     public String currentAttribute;
     public double attributeHardness;
     public double attributeSpecificGravity;
@@ -29,12 +27,13 @@ public class SuperTrumpGame {
     public boolean gameIsover = false;
 
 
-    public SuperTrumpGame(int numberPlayers){
+    SuperTrumpGame(int numberPlayers){
         this.numberPlayers = numberPlayers;
         this.deck = new STDeck();
 
     }
 
+    //Randomly selects a player to be dealer.
     public int selectDealer(int NumberOfPlayers){
         int min = 1;
         Random generator = new Random();
@@ -43,6 +42,7 @@ public class SuperTrumpGame {
         return dealerNumber;
     }
 
+    //Assigns each player 8 cards from the shuffled deck.
     public void dealHand(int numberPlayers) {
 
         players = new Player[numberPlayers];
@@ -58,6 +58,7 @@ public class SuperTrumpGame {
         players[0].isHuman = true;
     }
 
+    //Lets the player choose the first card to play and a category.
     public String firstPlayerTurn(){
 
         Scanner playerChoice = new Scanner(System.in);
@@ -81,7 +82,7 @@ public class SuperTrumpGame {
                 else if (chosenCard.cardTitle.equals("The Petrologist")) {
                     currentAttribute = "Crustal Abundance";
                     System.out.println("The Petrologist card has changed the category to Crustal Abundance.");
-                    chosenCard.cardCrystalAbundance = "null";
+                    chosenCard.cardCrustalAbundance = "null";
                     players[0].playerHand.remove(chosenCard);
                 }
                 else if (chosenCard.cardTitle.equals("The Gemmologist")) {
@@ -104,7 +105,7 @@ public class SuperTrumpGame {
                 }
                 else {
                     System.out.println("The Geologist card lets you choose a playing category. Which category would you like to play by?");
-                    System.out.println("1. Hardness" + "\n" + "2. Specific Gravity" + "\n" + "3. Cleavage" + "\n" + "4. Crystal Abundance" + "\n" + "5. Economic Value");
+                    System.out.println("1. Hardness" + "\n" + "2. Specific Gravity" + "\n" + "3. Cleavage" + "\n" + "4. Crustal Abundance" + "\n" + "5. Economic Value");
                     int attributeChoice = playerChoice.nextInt();
                     switch (attributeChoice){
                         case 1:
@@ -130,10 +131,10 @@ public class SuperTrumpGame {
                             break;
                         case 4:
                             currentAttribute = "Crustal Abundance";
-                            attributeCrustalAbundance = chosenCard.cardCrystalAbundance;
+                            attributeCrustalAbundance = chosenCard.cardCrustalAbundance;
                             System.out.println("The Geologist has changed the category to Crustal Abundance.");
                             System.out.println("The chosen cards hardness is " + attributeCrustalAbundance);
-                            playedCardCrustalAbundance = chosenCard.cardCrystalAbundance;
+                            playedCardCrustalAbundance = chosenCard.cardCrustalAbundance;
                             break;
                         case 5:
                             currentAttribute = "Economic Value";
@@ -148,7 +149,7 @@ public class SuperTrumpGame {
         }
         else {
             System.out.println("Which category would you like to play by?");
-            System.out.println("1. Hardness" + "\n" + "2. Specific Gravity" + "\n" + "3. Cleavage" + "\n" + "4. Crystal Abundance" + "\n" + "5. Economic Value");
+            System.out.println("1. Hardness" + "\n" + "2. Specific Gravity" + "\n" + "3. Cleavage" + "\n" + "4. Crustal Abundance" + "\n" + "5. Economic Value");
             int attributeChoice = playerChoice.nextInt();
             switch (attributeChoice){
                 case 1:
@@ -174,10 +175,10 @@ public class SuperTrumpGame {
                     break;
                 case 4:
                     currentAttribute = "Crustal Abundance";
-                    attributeCrustalAbundance = chosenCard.cardCrystalAbundance;
+                    attributeCrustalAbundance = chosenCard.cardCrustalAbundance;
                     System.out.println("You have chosen to play by the Crustal Abundance category.");
                     System.out.println("The chosen cards hardness is " + attributeCrustalAbundance);
-                    playedCardCrustalAbundance = chosenCard.cardCrystalAbundance;
+                    playedCardCrustalAbundance = chosenCard.cardCrustalAbundance;
                     break;
                 case 5:
                     currentAttribute = "Economic Value";
@@ -192,38 +193,67 @@ public class SuperTrumpGame {
         return currentAttribute;
     }
 
+    //Gets the values of the previously played category.
     private void getPlayedCardAttributeValue() {
+
+
         int cardCount = deck.playedCards.size() - 1;
         Card cardPlayed = deck.playedCards.get(cardCount);
-        if (currentAttribute.equals("Hardness")){
-            playedCardHardness = cardPlayed.cardHardness;
+
+        if (cardPlayed.getClass() == TrumpCard.class) {
+            if (cardPlayed.cardTitle.equals("The miner")) {
+                currentAttribute = "Economic Value";
+                playedCardEconomicValue = "low";
+
+            } else if (cardPlayed.cardTitle.equals("The Petrologist")) {
+                currentAttribute = "Crustal Abundance";
+                playedCardCrustalAbundance = "low";
+
+            } else if (cardPlayed.cardTitle.equals("The Gemmologist")) {
+                currentAttribute = "Hardness";
+                playedCardHardness = 0.0;
+
+            } else if (cardPlayed.cardTitle.equals("The Mineralogist")) {
+                currentAttribute = "Cleavage";
+                playedCardCleavage = "poor";
+
+            } else if (cardPlayed.cardTitle.equals("The Geophysicist")) {
+                currentAttribute = "Specific Gravity";
+                playedCardSpecificGravity = 0.0;
+
+            } else {
+                playedCardEconomicValue = "low";
+                playedCardHardness = 0.0;
+                playedCardSpecificGravity = 0.0;
+                playedCardCrustalAbundance = "low";
+                playedCardCleavage = "poor";
+            }
         }
-        else if (currentAttribute.equals("Specific Gravity")){
-            playedCardSpecificGravity = cardPlayed.cardSpecificGravity;
-        }
-        else if (currentAttribute.equals("Cleavage")){
-            playedCardCleavage = cardPlayed.cardCleavage;
-        }
-        else if (currentAttribute.equals("Crustal Abundance")){
-            playedCardCrustalAbundance = cardPlayed.cardCrystalAbundance;
-        }
-        else {
-            playedCardEconomicValue = cardPlayed.cardEconomicValue;
+        else if (cardPlayed.getClass() == MineralCard.class) {
+
+            if (currentAttribute.equals("Hardness")) {
+                playedCardHardness = cardPlayed.cardHardness;
+            } else if (currentAttribute.equals("Specific Gravity")) {
+                playedCardSpecificGravity = cardPlayed.cardSpecificGravity;
+            } else if (currentAttribute.equals("Cleavage")) {
+                playedCardCleavage = cardPlayed.cardCleavage;
+            } else if (currentAttribute.equals("Crustal Abundance")) {
+                playedCardCrustalAbundance = cardPlayed.cardCrustalAbundance;
+            } else {
+                playedCardEconomicValue = cardPlayed.cardEconomicValue;
+            }
         }
     }
 
-    public  boolean compareCardsSpecificGravity(){
+    //Compares the played card to the card that the player is trying to play based on Specific Gravity.
+    private boolean compareCardsSpecificGravity(){
         boolean canPlayCard;
-        if (this.attributeSpecificGravity > this.playedCardSpecificGravity){
-            canPlayCard = true;
-        }
-        else {
-            canPlayCard = false;
-        }
+        canPlayCard = this.attributeSpecificGravity > this.playedCardSpecificGravity;
         return canPlayCard;
     }
 
-    public boolean compareCardsEconomicValue() {
+    //Compares the played card to the card that the player is trying to play based on Economic Value
+    private boolean compareCardsEconomicValue() {
         int attributeCompare = 0;
         boolean canPlayCard;
         int playedAttributeCompare = 0;
@@ -274,17 +304,14 @@ public class SuperTrumpGame {
                 playedAttributeCompare = 0;
                 break;
 
-        }if (attributeCompare > playedAttributeCompare){
-            canPlayCard = true;
         }
-        else {
-            canPlayCard = false;
-        }
+        canPlayCard = attributeCompare > playedAttributeCompare;
         return canPlayCard;
 
     }
 
-    public boolean compareCardsCrustalAbundance() {
+    //Compares the played card to the card that the player is trying to play based on Crustal Abundance.
+    private boolean compareCardsCrustalAbundance() {
         int attributeCompare = 0;
         boolean canPlayCard;
         int playedAttributeCompare = 0;
@@ -335,17 +362,14 @@ public class SuperTrumpGame {
                 playedAttributeCompare = 0;
                 break;
 
-        }if (attributeCompare > playedAttributeCompare){
-            canPlayCard = true;
         }
-        else {
-            canPlayCard = false;
-        }
+        canPlayCard = attributeCompare > playedAttributeCompare;
         return canPlayCard;
 
     }
 
-    public boolean compareCardsCleavage(){
+    //Compares the played card to the card that the player is trying to play based on Cleavage.
+    private boolean compareCardsCleavage(){
         int attributeCompare = 0;
         boolean canPlayCard;
         int playerAttributeCompare = 0;
@@ -451,32 +475,22 @@ public class SuperTrumpGame {
                 break;
         }
 
-        if (attributeCompare > playerAttributeCompare){
-            canPlayCard = true;
-        }
-        else {
-            canPlayCard = false;
-        }
+        canPlayCard = attributeCompare > playerAttributeCompare;
         return canPlayCard;
 
     }
 
-
-    public boolean compareCardsHardness(){
+    //Compares the played card to the card that the player is trying to play based on Hardness.
+    private boolean compareCardsHardness(){
         boolean canPlayCard;
 
-        if (this.attributeHardness > this.playedCardHardness){
-            canPlayCard = true;
-        }
-        else {
-            canPlayCard = false;
-        }
+        canPlayCard = this.attributeHardness > this.playedCardHardness;
         return canPlayCard;
     }
 
+    //Controls the players turn, letting them play a trump or mineral card and checking for validity.
     public String playerTurn() {
         boolean x = false;
-        gameOver(numberPlayers);
 
         getPlayedCardAttributeValue();
 
@@ -504,8 +518,8 @@ public class SuperTrumpGame {
             attributeHardness = chosenCard.cardHardness;
             attributeSpecificGravity = chosenCard.cardSpecificGravity;
             attributeCleavage = chosenCard.cardCleavage;
-            attributeCrustalAbundance = chosenCard.cardCrystalAbundance;
-            attributeEconomicValue = chosenCard.cardCrystalAbundance;
+            attributeCrustalAbundance = chosenCard.cardCrustalAbundance;
+            attributeEconomicValue = chosenCard.cardCrustalAbundance;
 
             if (chosenCard.getClass() == TrumpCard.class) {
                 trumpCardCategoryChangePlayer(chosenCard);
@@ -523,7 +537,6 @@ public class SuperTrumpGame {
                     }
 
                     while (!compareCardsHardness() && !x) {
-                        System.out.println(attributeHardness);
                         System.out.println("Please play a card that is a higher hardness than " + playedCardHardness + " or type 'pass' to pickup a card.");
 
                         //System.out.println("Please enter the number of the card you would like to play:");
@@ -546,10 +559,183 @@ public class SuperTrumpGame {
                         chosenCard = players[0].playerHand.get(cardChoice);
                         if (chosenCard.getClass() == TrumpCard.class) {
                             trumpCardCategoryChangePlayer(chosenCard);
+                            x = true;
                             players[0].playerHand.remove(chosenCard);
                         }
                         attributeHardness = chosenCard.cardHardness;
                         compareCardsHardness();
+                    }
+
+                }
+
+                //crustal abundance
+                if (currentAttribute.equals("Crustal Abundance")) {
+                    compareCardsCrustalAbundance();
+
+                    if (compareCardsCrustalAbundance()) {
+                        deck.playedCards.add(players[0].playerHand.get(cardChoice));
+                        System.out.println("Player 1 has played card: " + players[0].playerHand.get(cardChoice));
+                        players[0].playerHand.remove(cardChoice);
+                    }
+
+                    while (!compareCardsCrustalAbundance() && !x) {
+                        System.out.println(attributeCrustalAbundance);
+                        System.out.println("Please play a card that is a higher crustal abundance than " + playedCardCrustalAbundance + " or type 'pass' to pickup a card.");
+
+                        //System.out.println("Please enter the number of the card you would like to play:");
+                        CardChoice = (playerChoice.nextLine());
+
+                        try {
+                            cardChoice = Integer.parseInt(CardChoice);
+                        }
+                        catch (NumberFormatException e) {
+                            if ("pass".equals(CardChoice)) {
+                                //Pick up card if the user types pass.
+                                System.out.println("You have picked up ");
+                                Card passCard = deck.playerTurnPass();
+                                players[0].playerHand.add(passCard);
+                                System.out.println(passCard);
+                                x = true;
+                            }
+                        }
+
+                        chosenCard = players[0].playerHand.get(cardChoice);
+
+                        if (chosenCard.getClass() == TrumpCard.class) {
+                            trumpCardCategoryChangePlayer(chosenCard);
+                            players[0].playerHand.remove(chosenCard);
+                            x = true;
+                        }
+                        attributeCrustalAbundance = chosenCard.cardCrustalAbundance;
+                        compareCardsCrustalAbundance();
+                    }
+
+                }
+
+                //economic value
+                if (currentAttribute.equals("Economic Value")) {
+                    compareCardsEconomicValue();
+
+                    if (compareCardsEconomicValue()) {
+                        deck.playedCards.add(players[0].playerHand.get(cardChoice));
+                        System.out.println("Player 1 has played card: " + players[0].playerHand.get(cardChoice));
+                        players[0].playerHand.remove(cardChoice);
+                    }
+
+                    while (!compareCardsEconomicValue() && !x) {
+                        System.out.println(attributeEconomicValue);
+                        System.out.println("Please play a card that is a higher economic value than " + playedCardEconomicValue + " or type 'pass' to pickup a card.");
+
+                        //System.out.println("Please enter the number of the card you would like to play:");
+                        CardChoice = (playerChoice.nextLine());
+
+                        try {
+                            cardChoice = Integer.parseInt(CardChoice);
+                        }
+                        catch (NumberFormatException e) {
+                            if ("pass".equals(CardChoice)) {
+                                //Pick up card if the user types pass.
+                                System.out.println("You have picked up ");
+                                Card passCard = deck.playerTurnPass();
+                                players[0].playerHand.add(passCard);
+                                System.out.println(passCard);
+                                x = true;
+                            }
+                        }
+
+                        chosenCard = players[0].playerHand.get(cardChoice);
+                        if (chosenCard.getClass() == TrumpCard.class) {
+                            trumpCardCategoryChangePlayer(chosenCard);
+                            players[0].playerHand.remove(chosenCard);
+                            x = true;
+                        }
+                        attributeEconomicValue = chosenCard.cardEconomicValue;
+                        compareCardsEconomicValue();
+                    }
+
+                }
+                // specific gravity
+                if (currentAttribute.equals("Specific Gravity")) {
+                    compareCardsSpecificGravity();
+
+                    if (compareCardsSpecificGravity()) {
+                        deck.playedCards.add(players[0].playerHand.get(cardChoice));
+                        System.out.println("Player 1 has played card: " + players[0].playerHand.get(cardChoice));
+                        players[0].playerHand.remove(cardChoice);
+                    }
+
+                    while (!compareCardsSpecificGravity() && !x) {
+                        System.out.println(attributeSpecificGravity);
+                        System.out.println("Please play a card that is a higher specific gravity than " + playedCardSpecificGravity + " or type 'pass' to pickup a card.");
+
+                        //System.out.println("Please enter the number of the card you would like to play:");
+                        CardChoice = (playerChoice.nextLine());
+
+                        try {
+                            cardChoice = Integer.parseInt(CardChoice);
+                        }
+                        catch (NumberFormatException e) {
+                            if ("pass".equals(CardChoice)) {
+                                //Pick up card if the user types pass.
+                                System.out.println("You have picked up ");
+                                Card passCard = deck.playerTurnPass();
+                                players[0].playerHand.add(passCard);
+                                System.out.println(passCard);
+                                x = true;
+                            }
+                        }
+
+                        chosenCard = players[0].playerHand.get(cardChoice);
+                        if (chosenCard.getClass() == TrumpCard.class) {
+                            trumpCardCategoryChangePlayer(chosenCard);
+                            players[0].playerHand.remove(chosenCard);
+                            x = true;
+                        }
+                        attributeSpecificGravity = chosenCard.cardSpecificGravity;
+                        compareCardsSpecificGravity();
+                    }
+
+                }
+
+                //cleavage
+                if (currentAttribute.equals("Cleavage")) {
+                    compareCardsCleavage();
+
+                    if (compareCardsCleavage()) {
+                        deck.playedCards.add(players[0].playerHand.get(cardChoice));
+                        System.out.println("Player 1 has played card: " + players[0].playerHand.get(cardChoice));
+                        players[0].playerHand.remove(cardChoice);
+                    }
+
+                    while (!compareCardsCleavage() && !x) {
+                        System.out.println(attributeCleavage);
+                        System.out.println("Please play a card that is a higher cleavage than " + playedCardCleavage + " or type 'pass' to pickup a card.");
+
+                        //System.out.println("Please enter the number of the card you would like to play:");
+                        CardChoice = (playerChoice.nextLine());
+
+                        try {
+                            cardChoice = Integer.parseInt(CardChoice);
+                        }
+                        catch (NumberFormatException e) {
+                            if ("pass".equals(CardChoice)) {
+                                //Pick up card if the user types pass.
+                                System.out.println("You have picked up ");
+                                Card passCard = deck.playerTurnPass();
+                                players[0].playerHand.add(passCard);
+                                System.out.println(passCard);
+                                x = true;
+                            }
+                        }
+
+                        chosenCard = players[0].playerHand.get(cardChoice);
+                        if (chosenCard.getClass() == TrumpCard.class) {
+                            trumpCardCategoryChangePlayer(chosenCard);
+                            players[0].playerHand.remove(chosenCard);
+                            x = true;
+                        }
+                        attributeCleavage = chosenCard.cardCleavage;
+                        compareCardsCleavage();
                     }
 
                 }
@@ -565,169 +751,13 @@ public class SuperTrumpGame {
                 System.out.println(passCard);
             }
         }
+        gameOver(numberPlayers);
         return currentAttribute;
     }
 
-
-
-
-/**
-            if (chosenCard.getClass() == TrumpCard.class) {
-                if (chosenCard.cardTitle.equals("The miner")) {
-                    currentAttribute = "Economic Value";
-                    System.out.println("The miner card has changed the category to Economic Value.");
-                    players[0].playerHand.remove(CardChoice);
-                } else if (chosenCard.cardTitle.equals("The Petrologist")) {
-                    currentAttribute = "Crustal Abundance";
-                    System.out.println("The Petrologist card has changed the category to Crustal Abundance.");
-                    players[0].playerHand.remove(CardChoice);
-                } else if (chosenCard.cardTitle.equals("The Gemmologist")) {
-                    currentAttribute = "Hardness";
-                    System.out.println("The Gemmologist card has changed the category to Hardness.");
-                    players[0].playerHand.remove(CardChoice);
-                } else if (chosenCard.cardTitle.equals("The Mineralogist")) {
-                    currentAttribute = "Cleavage";
-                    System.out.println("The Mineralogist card has changed the category to Cleavage.");
-                    players[0].playerHand.remove(CardChoice);
-                } else if (chosenCard.cardTitle.equals("The Geophysicist")) {
-                    currentAttribute = "Specific Gravity";
-                    System.out.println("The Geophysicist card has changed the category to Specific Gravity.");
-                    players[0].playerHand.remove(CardChoice);
-                } else {
-                    System.out.println("Which category would you like to play by?");
-                    System.out.println("1. Hardness" + "\n" + "2. Specific Gravity" + "\n" + "3. Cleavage" + "\n" + "4. Crystal Abundance" + "\n" + "5. Economic Value");
-                    int attributeChoice = playerChoice.nextInt();
-                    switch (attributeChoice) {
-                        case 1:
-                            currentAttribute = "Hardness";
-                            break;
-                        case 2:
-                            currentAttribute = "Specific Gravity";
-                            break;
-                        case 3:
-                            currentAttribute = "Cleavage";
-                            break;
-                        case 4:
-                            currentAttribute = "Crustal Abundance";
-                            break;
-                        case 5:
-                            currentAttribute = "Economic Value";
-                            break;
-                    }
-                    System.out.println("The Geologist card has changed the category to " + currentAttribute);
-                    players[0].playerHand.remove(CardChoice);
-                }
-            } else if (chosenCard.getClass() == MineralCard.class) {
-
-                if (currentAttribute.equals("Hardness")) {
-                    compareCardsHardness();
-
-                    if (compareCardsHardness()) {
-                        deck.playedCards.add(players[0].playerHand.get(CardChoice));
-                        System.out.println("Player 1 has played card: " + players[0].playerHand.get(CardChoice));
-                        players[0].playerHand.remove(CardChoice);
-                    }
-
-                    while (!compareCardsHardness()) {
-                        System.out.println(attributeHardness);
-                        System.out.println("Please play a card that is a higher hardness than " + playedCardHardness);
-
-                        System.out.println("Please enter the number of the card you would like to play:");
-                        CardChoice = Integer.parseInt(playerChoice.next());
-                        chosenCard = players[0].playerHand.get(CardChoice);
-                        attributeHardness = chosenCard.cardHardness;
-                        compareCardsHardness();
-                    }
-
-                } else if (currentAttribute.equals("Specific Gravity")) {
-                    compareCardsSpecificGravity();
-                    if (compareCardsSpecificGravity()) {
-                        deck.playedCards.add(players[0].playerHand.get(CardChoice));
-                        System.out.println("Player 1 has played card: " + players[0].playerHand.get(CardChoice));
-                        players[0].playerHand.remove(CardChoice);
-                    }
-
-
-                    while (!compareCardsSpecificGravity()) {
-                        System.out.println("Please play a card that is a higher Specific Gravity than " + playedCardSpecificGravity);
-
-                        System.out.println("Please enter the number of the card you would like to play:");
-                        CardChoice = Integer.parseInt(playerChoice.next());
-                        chosenCard = players[0].playerHand.get(CardChoice);
-                        attributeSpecificGravity = chosenCard.cardSpecificGravity;
-                        compareCardsSpecificGravity();
-                    }
-                } else if (currentAttribute.equals("Cleavage")) {
-                    compareCardsCleavage();
-                    if (compareCardsCleavage()) {
-                        deck.playedCards.add(players[0].playerHand.get(CardChoice));
-                        System.out.println("Player 1 has played card: " + players[0].playerHand.get(CardChoice));
-                        players[0].playerHand.remove(CardChoice);
-                    }
-
-
-                    while (!compareCardsCleavage()) {
-                        System.out.println("Please play a card that is a higher Cleavage than " + playedCardCleavage);
-
-                        System.out.println("Please enter the number of the card you would like to play:");
-                        CardChoice = Integer.parseInt(playerChoice.next());
-                        chosenCard = players[0].playerHand.get(CardChoice);
-                        attributeCleavage = chosenCard.cardCleavage;
-                        compareCardsCleavage();
-                    }
-                } else if (currentAttribute.equals("Crustal Abundance")) {
-                    compareCardsCrustalAbundance();
-                    if (compareCardsCrustalAbundance()) {
-                        deck.playedCards.add(players[0].playerHand.get(CardChoice));
-                        System.out.println("Player 1 has played card: " + players[0].playerHand.get(CardChoice));
-                        players[0].playerHand.remove(CardChoice);
-                    }
-
-
-                    while (!compareCardsCrustalAbundance()) {
-                        System.out.println("Please play a card that is a higher Cleavage than " + playedCardCrustalAbundance);
-
-                        System.out.println("Please enter the number of the card you would like to play:");
-                        CardChoice = Integer.parseInt(playerChoice.next());
-                        chosenCard = players[0].playerHand.get(CardChoice);
-                        attributeCrustalAbundance = chosenCard.cardCrystalAbundance;
-                        compareCardsCrustalAbundance();
-                    }
-                } else if (currentAttribute.equals("Economic Value")) {
-                    compareCardsEconomicValue();
-                    if (compareCardsEconomicValue()) {
-                        deck.playedCards.add(players[0].playerHand.get(CardChoice));
-                        System.out.println("Player 1 has played card: " + players[0].playerHand.get(CardChoice));
-                        players[0].playerHand.remove(CardChoice);
-                    }
-
-
-                    while (!compareCardsEconomicValue()) {
-                        System.out.println("Please play a card that is a higher Economic Value than " + playedCardEconomicValue);
-
-                        System.out.println("Please enter the number of the card you would like to play:");
-                        CardChoice = Integer.parseInt(playerChoice.next());
-                        chosenCard = players[0].playerHand.get(CardChoice);
-                        attributeEconomicValue = chosenCard.cardEconomicValue;
-                        compareCardsEconomicValue();
-                    }
-                }
-            }
-        }
-        else {
-            System.out.println("You have picked up ");
-            Card passCard = deck.playerTurnPass();
-            players[0].playerHand.add(passCard);
-            System.out.println(passCard);
-        }
-
-        return attribute;
-    }
-
-*/
-
+    //Plays card number three (cards have already been randomised)for the bot and chooses initial playing category.
     public String firstBotTurn(int firstPlayer) {
-        //// TODO: 12/09/2016 fix to include attribute from trump card
+
         int cardChoice = 3;
         Card chosenCard = players[firstPlayer].playerHand.get(cardChoice);
         System.out.println(chosenCard);
@@ -805,7 +835,7 @@ public class SuperTrumpGame {
                         break;
                     case 4:
                         currentAttribute = "Crustal Abundance";
-                        attributeCrustalAbundance = chosenCard.cardCrystalAbundance;
+                        attributeCrustalAbundance = chosenCard.cardCrustalAbundance;
                         System.out.println("Bot has chosen to play by the Crustal Abundance category.");
 
                         break;
@@ -821,7 +851,7 @@ public class SuperTrumpGame {
             return currentAttribute;
         }
 
-
+    //Prints the player hand and the number the player has to enter to access that card.
     public void printHand(){
         System.out.println("Here is your hand:");
         for (int i = 0; i < players[0].playerHand.size(); i++) {
@@ -829,7 +859,7 @@ public class SuperTrumpGame {
         }
     }
 
-
+    //Determines where the play starts. (Left of the dealer)
     public int determineFirstPlayer(int dealerNumber, int numberPlayers){
         int startingPlayer = dealerNumber + 1;
 
@@ -842,11 +872,11 @@ public class SuperTrumpGame {
         return startingPlayer;
     }
 
+    //Looks for a card in the hand that is higher in the current category, if none found it looks to play trump.
     public void botTurn(int currentPosition) {
 
-        System.out.println(players[currentPosition].playerHand);
         getPlayedCardAttributeValue();
-        gameOver(numberPlayers);
+
         int i;
         Card chosenCard;
 
@@ -879,13 +909,14 @@ public class SuperTrumpGame {
                         chosenCard = players[currentPosition].playerHand.get(i);
                         if (chosenCard.getClass() == TrumpCard.class) {
 
-                            trumpCardCategoryChange(chosenCard);
+                            trumpCardCategoryChange(chosenCard,currentPosition);
                             players[currentPosition].playerHand.remove(chosenCard);
                             deck.playedCards.add(chosenCard);
                             players[currentPosition].playerHand.remove(chosenCard);
                             deck.playedCards.add(chosenCard);
                             playedCardHardness = 0.0;
                             i = players[currentPosition].playerHand.size() + 2;
+
                         }
 
                     }
@@ -927,13 +958,14 @@ public class SuperTrumpGame {
                         chosenCard = players[currentPosition].playerHand.get(i);
                         if (chosenCard.getClass() == TrumpCard.class) {
 
-                            trumpCardCategoryChange(chosenCard);
+                            trumpCardCategoryChange(chosenCard,currentPosition);
                             players[currentPosition].playerHand.remove(chosenCard);
                             deck.playedCards.add(chosenCard);
                             players[currentPosition].playerHand.remove(chosenCard);
                             deck.playedCards.add(chosenCard);
-                            playedCardCleavage = "none";
+                            playedCardCleavage = "ultratrace";
                             i = players[currentPosition].playerHand.size() + 2;
+
                         }
 
                     }
@@ -974,8 +1006,7 @@ public class SuperTrumpGame {
                     if (i < players[currentPosition].playerHand.size()) {
                         chosenCard = players[currentPosition].playerHand.get(i);
                         if (chosenCard.getClass() == TrumpCard.class) {
-
-                            trumpCardCategoryChange(chosenCard);
+                            trumpCardCategoryChange(chosenCard,currentPosition);
                             players[currentPosition].playerHand.remove(chosenCard);
                             deck.playedCards.add(chosenCard);
                             players[currentPosition].playerHand.remove(chosenCard);
@@ -1002,13 +1033,12 @@ public class SuperTrumpGame {
                     chosenCard = players[currentPosition].playerHand.get(i);
 
                     if (chosenCard.getClass() == MineralCard.class) {
-
-                        attributeCrustalAbundance = chosenCard.cardCrystalAbundance;
+                        attributeCrustalAbundance = chosenCard.cardCrustalAbundance;
                         if (compareCardsCrustalAbundance()) {
                             players[currentPosition].playerHand.remove(chosenCard);
                             deck.playedCards.add(chosenCard);
                             System.out.println(chosenCard);
-                            playedCardCrustalAbundance = chosenCard.cardCrystalAbundance;
+                            playedCardCrustalAbundance = chosenCard.cardCrustalAbundance;
                             i = players[currentPosition].playerHand.size() + 2;
                         }
 
@@ -1022,14 +1052,14 @@ public class SuperTrumpGame {
                     if (i < players[currentPosition].playerHand.size()) {
                         chosenCard = players[currentPosition].playerHand.get(i);
                         if (chosenCard.getClass() == TrumpCard.class) {
-
-                            trumpCardCategoryChange(chosenCard);
+                            trumpCardCategoryChange(chosenCard,currentPosition);
                             players[currentPosition].playerHand.remove(chosenCard);
                             deck.playedCards.add(chosenCard);
                             players[currentPosition].playerHand.remove(chosenCard);
                             deck.playedCards.add(chosenCard);
-                            playedCardCrustalAbundance = "null";
+                            playedCardCrustalAbundance = "none";
                             i = players[currentPosition].playerHand.size() + 2;
+
                         }
 
                     }
@@ -1050,7 +1080,6 @@ public class SuperTrumpGame {
                     chosenCard = players[currentPosition].playerHand.get(i);
 
                     if (chosenCard.getClass() == MineralCard.class) {
-
                         attributeEconomicValue = chosenCard.cardEconomicValue;
                         if (compareCardsEconomicValue()) {
                             players[currentPosition].playerHand.remove(chosenCard);
@@ -1070,14 +1099,14 @@ public class SuperTrumpGame {
                     if (i < players[currentPosition].playerHand.size()) {
                         chosenCard = players[currentPosition].playerHand.get(i);
                         if (chosenCard.getClass() == TrumpCard.class) {
-
-                            trumpCardCategoryChange(chosenCard);
+                            trumpCardCategoryChange(chosenCard,currentPosition);
                             players[currentPosition].playerHand.remove(chosenCard);
                             deck.playedCards.add(chosenCard);
                             players[currentPosition].playerHand.remove(chosenCard);
                             deck.playedCards.add(chosenCard);
-                            playedCardEconomicValue = "null";
+                            playedCardEconomicValue = "low";
                             i = players[currentPosition].playerHand.size() + 2;
+
                         }
 
                     }
@@ -1090,27 +1119,44 @@ public class SuperTrumpGame {
                 players[currentPosition].playerHand.add(passCard);
             }
         }
+        gameOver(numberPlayers);
     }
 
-    private void trumpCardCategoryChange(Card chosenCard) {
+    //Changes the current category when a bot plays a turn.
+    private void trumpCardCategoryChange(Card chosenCard, int currentPlayer) {
         if (chosenCard.cardTitle.equals("The miner")) {
             currentAttribute = "Economic Value";
+            playedCardEconomicValue = "low";
             System.out.println("The miner card has changed the category to Economic Value.");
 
         } else if (chosenCard.cardTitle.equals("The Petrologist")) {
             currentAttribute = "Crustal Abundance";
+            playedCardCrustalAbundance = "low";
             System.out.println("The Petrologist card has changed the category to Crustal Abundance.");
 
         } else if (chosenCard.cardTitle.equals("The Gemmologist")) {
             currentAttribute = "Hardness";
+            playedCardHardness = 0.0;
             System.out.println("The Gemmologist card has changed the category to Hardness.");
 
         } else if (chosenCard.cardTitle.equals("The Mineralogist")) {
             currentAttribute = "Cleavage";
+            playedCardCleavage = "none";
+            attributeCleavage = "none";
             System.out.println("The Mineralogist card has changed the category to Cleavage.");
 
         } else if (chosenCard.cardTitle.equals("The Geophysicist")) {
+            for (int i = 0; i < players[currentPlayer].playerHand.size(); i++) {
+                Card Mag = players[currentPlayer].playerHand.get(i);
+                if (Mag.cardTitle.equals("Magnetite")){
+                    deck.playedCards.add(Mag);
+                    players[currentPlayer].playerHand.remove(Mag);
+                    System.out.println("Player " + currentPlayer + " has won the game!");
+                    System.exit(0);
+                }
+            }
             currentAttribute = "Specific Gravity";
+            playedCardSpecificGravity = 0.0;
             System.out.println("The Geophysicist card has changed the category to Specific Gravity.");
 
         } else {
@@ -1119,67 +1165,100 @@ public class SuperTrumpGame {
             switch (attributeChoice) {
                 case 1:
                     currentAttribute = "Hardness";
+                    playedCardHardness = 0.0;
                     break;
                 case 2:
                     currentAttribute = "Specific Gravity";
+                    playedCardSpecificGravity = 0.0;
                     break;
                 case 3:
                     currentAttribute = "Cleavage";
+                    playedCardCleavage = "none";
                     break;
                 case 4:
                     currentAttribute = "Crustal Abundance";
+                    playedCardCrustalAbundance = "ultratrace";
                     break;
                 case 5:
                     currentAttribute = "Economic Value";
+                    playedCardEconomicValue = "low";
                     break;
             }
             System.out.println("The Geologist card has changed the category to " + currentAttribute);
         }
     }
 
-    public void trumpCardCategoryChangePlayer(Card chosenCard){
+    //Changes the current category when a player plays their turn.
+    private void trumpCardCategoryChangePlayer(Card chosenCard){
 
         if (chosenCard.getClass() == TrumpCard.class) {
             if (chosenCard.cardTitle.equals("The miner")) {
                 currentAttribute = "Economic Value";
+                playedCardEconomicValue = "low";
                 System.out.println("The miner card has changed the category to Economic Value.");
 
             } else if (chosenCard.cardTitle.equals("The Petrologist")) {
                 currentAttribute = "Crustal Abundance";
+                playedCardCrustalAbundance = "low";
                 System.out.println("The Petrologist card has changed the category to Crustal Abundance.");
 
             } else if (chosenCard.cardTitle.equals("The Gemmologist")) {
                 currentAttribute = "Hardness";
+                playedCardHardness = 0.0;
                 System.out.println("The Gemmologist card has changed the category to Hardness.");
 
             } else if (chosenCard.cardTitle.equals("The Mineralogist")) {
                 currentAttribute = "Cleavage";
+                playedCardCleavage = "none";
                 System.out.println("The Mineralogist card has changed the category to Cleavage.");
 
             } else if (chosenCard.cardTitle.equals("The Geophysicist")) {
+                for (int i = 0; i < players[0].playerHand.size(); i++) {
+                    Card Mag = players[0].playerHand.get(i);
+                    if (Mag.cardTitle.equals("Magnetite")){
+
+                        System.out.println("Would you like to play your Magnetite card to win the hand?");
+                        Scanner reader = new Scanner(System.in);
+                        System.out.println("1. Yes" + "\n" + "2. No");
+                        int answer = reader.nextInt();
+
+                        if (answer == 1) {
+                            deck.playedCards.add(Mag);
+                            players[0].playerHand.remove(Mag);
+                            System.out.println("Player 1 has won the game!");
+                            System.exit(0);
+                        } else {break;}
+                    }
+                }
                 currentAttribute = "Specific Gravity";
+                playedCardSpecificGravity = 0.0;
                 System.out.println("The Geophysicist card has changed the category to Specific Gravity.");
 
             } else {
                 Scanner playerChoice = new Scanner(System.in);
                 System.out.println("Which category would you like to play by?");
-                System.out.println("1. Hardness" + "\n" + "2. Specific Gravity" + "\n" + "3. Cleavage" + "\n" + "4. Crystal Abundance" + "\n" + "5. Economic Value");
+                System.out.println("1. Hardness" + "\n" + "2. Specific Gravity" + "\n" + "3. Cleavage" + "\n" + "4. Crustal Abundance" + "\n" + "5. Economic Value");
                 int attributeChoice = playerChoice.nextInt();
                 switch (attributeChoice) {
                     case 1:
                         currentAttribute = "Hardness";
+                        playedCardHardness = 0.0;
                         break;
                     case 2:
                         currentAttribute = "Specific Gravity";
+                        playedCardSpecificGravity = 0.0;
                         break;
                     case 3:
                         currentAttribute = "Cleavage";
+                        playedCardCleavage = "none";
                         break;
                     case 4:
                         currentAttribute = "Crustal Abundance";
+                        playedCardCrustalAbundance = "ultratrace";
                         break;
                     case 5:
                         currentAttribute = "Economic Value";
+                        playedCardEconomicValue = "low";
                         break;
                 }
                 System.out.println("The Geologist card has changed the category to " + currentAttribute);
@@ -1187,20 +1266,20 @@ public class SuperTrumpGame {
         }
     }
 
-    public boolean gameOver(int numberPlayers) {
+    //Queries for the game winning conditions and ends the game when they become true.
+    private boolean gameOver(int numberPlayers) {
 
         for (int i = 0; i < numberPlayers; i++) {
             if (players[i].playerHand.size() < 1){
                 System.out.print("Player " + (i + 1) + " has won the game!");
                 gameIsover = true;
+                System.exit(0);
             }
             else gameIsover = false;
-
-
-            if (!deck.checkEmptyDeck()) {
-                gameIsover = true;
-            }
         }
+
+        deck.checkEmptyDeck();
+
         return gameIsover;
     }
 }

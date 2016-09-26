@@ -8,10 +8,10 @@ import java.util.concurrent.ThreadLocalRandom;
  *
  */
 
-public class STDeck {
+class STDeck {
     private ArrayList<Card> cards;
     public ArrayList<Card> playedCards;
-    public Card passCard;
+    private Card passCard;
 
 
 
@@ -146,7 +146,7 @@ public class STDeck {
         return cards.toString();
     }
 
-    public ArrayList shuffleArray()
+    private ArrayList shuffleArray()
     {
         Collections.shuffle(cards);
         return cards;
@@ -168,14 +168,14 @@ public class STDeck {
     return this.passCard;
     }
 
-    public boolean checkEmptyDeck(){
-        boolean deckHasCards;
-        if (cards.size() == 0){
-            System.out.println("The deck is out of cards. Game over");
-            deckHasCards = false;
-        }
-        else {deckHasCards = true;}
+    public void checkEmptyDeck(){
 
-        return deckHasCards;
+        if (cards.size() == 2){
+            System.out.println("The deck is being re-shuffled." + "\n");
+            cards.addAll(playedCards);
+            shuffleArray();
+
+        }
+
     }
 }

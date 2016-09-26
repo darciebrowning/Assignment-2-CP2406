@@ -1,24 +1,25 @@
 /**
  * Created by Darcie on 26/08/2016.
+ * Creates the card object that Trump and Mineral are derived from.
  */
 
 public class Card {
 
     public String cardTitle;
-    public String cardChemistry;
-    public String cardClassification;
-    public String cardCrystalSystem;
-    public String cardOccurrence;
-    public double cardHardness;
-    public double cardSpecificGravity;
-    public String cardCleavage;
-    public String cardCrystalAbundance;
-    public String cardEconomicValue;
+    String cardChemistry;
+    String cardClassification;
+    String cardCrystalSystem;
+    String cardOccurrence;
+    double cardHardness;
+    double cardSpecificGravity;
+    String cardCleavage;
+    String cardCrustalAbundance;
+    String cardEconomicValue;
 
-    public Card(String title, String chemistry, String classification,
-                String crystalSystem, String occurrence, double hardness,
-                double specificGravity, String cleavage, String crystalAbundance,
-                String economicValue){
+    Card(String title, String chemistry, String classification,
+         String crystalSystem, String occurrence, double hardness,
+         double specificGravity, String cleavage, String crystalAbundance,
+         String economicValue){
         cardTitle = title;
         cardChemistry = chemistry;
         cardClassification = classification;
@@ -27,11 +28,11 @@ public class Card {
         cardHardness = hardness;
         cardSpecificGravity = specificGravity;
         cardCleavage = cleavage;
-        cardCrystalAbundance = crystalAbundance;
+        cardCrustalAbundance = crystalAbundance;
         cardEconomicValue = economicValue;
     }
 
-    public Card(String title, String economicValue){
+    Card(String title, String economicValue){
         cardTitle = title;
         cardEconomicValue = economicValue;
     }
@@ -40,7 +41,7 @@ public class Card {
 
         return "Card Name: " + cardTitle + " , Chemistry: " + cardChemistry + " , Classification: " + cardClassification + " , Crystal System: " + cardCrystalSystem +
                 " , Occurrance: " + cardOccurrence + " , Hardness: " + cardHardness + " , Specific Gravity: " + cardSpecificGravity
-                + " , Cleavage: " + cardCleavage + " , Crystal Abundance: " + cardCrystalAbundance + " , Economic Value: " + cardEconomicValue + "\n";
+                + " , Cleavage: " + cardCleavage + " , Crystal Abundance: " + cardCrustalAbundance + " , Economic Value: " + cardEconomicValue + "\n";
 
     }
 
