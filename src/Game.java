@@ -16,8 +16,11 @@ class Game {
         if (opt == 1) {
             System.out.println("You have started a new game.");
             startNewGame();
-        } else {
+        } else if (opt == 2){
             System.exit(0);
+        } else {
+            System.out.println("The instructions can be found by visiting this URL:" + "\n"
+                    + "http://www.minsocam.org/msa/Special/mineralsupertrumps_instructions.pdf");
         }
 
     }
@@ -108,6 +111,8 @@ class Game {
     private static void showMenu() {
         System.out.println("1. Start game.");
         System.out.println("2. Exit.");
+        System.out.println("3. View rules.");
+
     }
 
     private static void showWelcome() {

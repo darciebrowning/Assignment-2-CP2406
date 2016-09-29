@@ -15,7 +15,7 @@ public class MineralCard extends Card {
 
         return "Card Name: " + cardTitle + " , Chemistry: " + cardChemistry + " , Classification: " + cardClassification + " , Crystal System: " + cardCrystalSystem +
                 " , Occurrance: " + cardOccurrence + " , Hardness: " + cardHardness + " , Specific Gravity: " + cardSpecificGravity
-                + " , Cleavage: " + cardCleavage + " , Crystal Abundance: " + cardCrustalAbundance + " , Economic Value: " + cardEconomicValue + "\n";
+                + " , Cleavage: " + cardCleavage + " , Crustal Abundance: " + cardCrustalAbundance + " , Economic Value: " + cardEconomicValue + "\n";
 
     }
 

@@ -171,7 +171,6 @@ class STDeck {
     public void checkEmptyDeck(){
 
         if (cards.size() == 2){
-            System.out.println("The deck is being re-shuffled." + "\n");
             cards.addAll(playedCards);
             shuffleArray();
 
