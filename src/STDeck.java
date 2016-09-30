@@ -172,9 +172,20 @@ class STDeck {
 
         if (cards.size() == 2){
             cards.addAll(playedCards);
+            System.out.println("The deck is empty. Re-shuffling the played cards back into the deck.");
             shuffleArray();
 
         }
 
     }
+
+    public boolean emptyDeck(){
+        if (cards.size() == 0){
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
 }

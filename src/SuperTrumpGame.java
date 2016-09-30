@@ -549,8 +549,6 @@ class SuperTrumpGame {
                         while (!compareCardsHardness() && !x) {
                             System.out.println("This card has a Hardness of " + attributeHardness + ".");
                             System.out.println("Please play a card that is a higher hardness than " + playedCardHardness + " or type 'pass' to pickup a card.");
-
-                            //System.out.println("Please enter the number of the card you would like to play:");
                             CardChoice = (playerChoice.nextLine());
 
                             try {
@@ -693,7 +691,6 @@ class SuperTrumpGame {
                                     Card passCard = deck.playerTurnPass();
                                     players[0].playerHand.add(passCard);
                                     System.out.println(passCard);
-                                    players[0].hasPassed = true;
                                     x = true;
                                     passCounter = passCounter + 1;
                                 }
@@ -756,6 +753,51 @@ class SuperTrumpGame {
                     }
                 }
 
+                    if (players[0].wonHand) {
+                        System.out.println("Which category would you like to play by?");
+                        System.out.println("1. Hardness" + "\n" + "2. Specific Gravity" + "\n" + "3. Cleavage" + "\n" + "4. Crustal Abundance" + "\n" + "5. Economic Value");
+                        int attributeChoice = playerChoice.nextInt();
+                        switch (attributeChoice){
+                            case 1:
+                                currentAttribute = "Hardness";
+                                attributeHardness = chosenCard.cardHardness;
+                                System.out.println("You have changed the category to Hardness.");
+                                System.out.println("The chosen cards hardness is " + attributeHardness);
+                                playedCardHardness = chosenCard.cardHardness;
+                                break;
+                            case 2:
+                                currentAttribute = "Specific Gravity";
+                                attributeSpecificGravity = chosenCard.cardSpecificGravity;
+                                System.out.println("You have changed the category to Specific Gravity.");
+                                System.out.println("The chosen cards specific gravity is " + attributeSpecificGravity);
+                                playedCardSpecificGravity = chosenCard.cardSpecificGravity;
+                                break;
+                            case 3:
+                                currentAttribute = "Cleavage";
+                                attributeCleavage = chosenCard.cardCleavage;
+                                System.out.println("You have changed the category to Cleavage.");
+                                System.out.println("The chosen cards cleavage is " + attributeCleavage);
+                                playedCardCleavage = chosenCard.cardCleavage;
+                                break;
+                            case 4:
+                                currentAttribute = "Crustal Abundance";
+                                attributeCrustalAbundance = chosenCard.cardCrustalAbundance;
+                                System.out.println("You have changed the category to Crustal Abundance.");
+                                System.out.println("The chosen cards crustal abundance is " + attributeCrustalAbundance);
+                                playedCardCrustalAbundance = chosenCard.cardCrustalAbundance;
+                                break;
+                            case 5:
+                                currentAttribute = "Economic Value";
+                                attributeEconomicValue = chosenCard.cardEconomicValue;
+                                System.out.println("You have changed the category to Economic Value.");
+                                System.out.println("The chosen cards economic value is " + attributeEconomicValue);
+                                playedCardEconomicValue = chosenCard.cardEconomicValue;
+                                break;
+                        }
+                       passCounter = 0;
+                    }
+
+
             } catch (NumberFormatException e) {
                 if ("pass".equals(CardChoice)) {
                     //Pick up card if the user types pass.
@@ -768,6 +810,7 @@ class SuperTrumpGame {
                     passCounter = passCounter + 1;
                 }
             }
+        players[0].wonHand = false;
         gameOver(numberPlayers);
         return currentAttribute;
     }
@@ -910,8 +953,6 @@ class SuperTrumpGame {
         Card chosenCard;
         players[currentPosition].hasPassed = false;
 
-        if (players[currentPosition].wonHand == false) {
-
             if (currentAttribute.equals("Hardness") && playedTrump == 0) {
 
                 for (i = 0; i < players[currentPosition].playerHand.size() + 1; i++) {
@@ -919,8 +960,8 @@ class SuperTrumpGame {
                         chosenCard = players[currentPosition].playerHand.get(i);
 
                         if (chosenCard.getClass() == MineralCard.class) {
-
                             attributeHardness = chosenCard.cardHardness;
+
                             if (compareCardsHardness()) {
                                 players[currentPosition].playerHand.remove(chosenCard);
                                 deck.playedCards.add(chosenCard);
@@ -952,14 +993,14 @@ class SuperTrumpGame {
                         }
                     }
                 }
+                    if (i == players[currentPosition].playerHand.size() + 1) {
+                        System.out.println("This player has picked up a card." + "\n");
+                        Card passCard = deck.playerTurnPass();
+                        players[currentPosition].playerHand.add(passCard);
+                        players[currentPosition].hasPassed = true;
+                        passCounter = passCounter + 1;
+                    }
 
-                if (i == players[currentPosition].playerHand.size() + 1) {
-                    System.out.println("This player has picked up a card." + "\n");
-                    Card passCard = deck.playerTurnPass();
-                    players[currentPosition].playerHand.add(passCard);
-                    players[currentPosition].hasPassed = true;
-                    passCounter = passCounter + 1;
-                }
             }
 
             if (currentAttribute.equals("Cleavage") && playedTrump == 0) {
@@ -980,6 +1021,7 @@ class SuperTrumpGame {
                             }
 
                         }
+
                     }
                 }
 
@@ -1004,13 +1046,14 @@ class SuperTrumpGame {
                     }
                 }
 
-                if (i == players[currentPosition].playerHand.size() + 1) {
-                    System.out.println("This player has picked up a card.");
-                    Card passCard = deck.playerTurnPass();
-                    players[currentPosition].playerHand.add(passCard);
-                    players[currentPosition].hasPassed = true;
-                    passCounter = passCounter + 1;
-                }
+                    if (i == players[currentPosition].playerHand.size() + 1) {
+                        System.out.println("This player has picked up a card." + "\n");
+                        Card passCard = deck.playerTurnPass();
+                        players[currentPosition].playerHand.add(passCard);
+                        players[currentPosition].hasPassed = true;
+                        passCounter = passCounter + 1;
+                    }
+
             }
 
             if (currentAttribute.equals("Specific Gravity") && playedTrump == 0) {
@@ -1029,8 +1072,8 @@ class SuperTrumpGame {
                                 playedCardSpecificGravity = chosenCard.cardSpecificGravity;
                                 i = players[currentPosition].playerHand.size() + 2;
                             }
-
                         }
+
                     }
                 }
 
@@ -1054,13 +1097,14 @@ class SuperTrumpGame {
                     }
                 }
 
-                if (i == players[currentPosition].playerHand.size() + 1) {
-                    System.out.println("This player has picked up a card.");
-                    Card passCard = deck.playerTurnPass();
-                    players[currentPosition].playerHand.add(passCard);
-                    players[currentPosition].hasPassed = true;
-                    passCounter = passCounter + 1;
-                }
+                    if (i == players[currentPosition].playerHand.size() + 1) {
+                        System.out.println("This player has picked up a card." + "\n");
+                        Card passCard = deck.playerTurnPass();
+                        players[currentPosition].playerHand.add(passCard);
+                        players[currentPosition].hasPassed = true;
+                        passCounter = passCounter + 1;
+                    }
+
             }
 
             if (currentAttribute.equals("Crustal Abundance") && playedTrump == 0) {
@@ -1080,6 +1124,7 @@ class SuperTrumpGame {
                             }
 
                         }
+
                     }
                 }
 
@@ -1102,14 +1147,13 @@ class SuperTrumpGame {
                         }
                     }
                 }
-
-                if (i == players[currentPosition].playerHand.size() + 1) {
-                    System.out.println("This player has picked up a card.");
-                    Card passCard = deck.playerTurnPass();
-                    players[currentPosition].playerHand.add(passCard);
-                    players[currentPosition].hasPassed = true;
-                    passCounter = passCounter + 1;
-                }
+                    if (i == players[currentPosition].playerHand.size() + 1) {
+                        System.out.println("This player has picked up a card." + "\n");
+                        Card passCard = deck.playerTurnPass();
+                        players[currentPosition].playerHand.add(passCard);
+                        players[currentPosition].hasPassed = true;
+                        passCounter = passCounter + 1;
+                    }
             }
 
             if (currentAttribute.equals("Economic Value") && playedTrump == 0) {
@@ -1127,8 +1171,8 @@ class SuperTrumpGame {
                                 playedCardEconomicValue = chosenCard.cardEconomicValue;
                                 i = players[currentPosition].playerHand.size() + 2;
                             }
-
                         }
+
                     }
                 }
 
@@ -1152,19 +1196,16 @@ class SuperTrumpGame {
                     }
                 }
 
-                if (i == players[currentPosition].playerHand.size() + 1) {
-                    System.out.println("This player has picked up a card.");
-                    Card passCard = deck.playerTurnPass();
-                    players[currentPosition].playerHand.add(passCard);
-                    players[currentPosition].hasPassed = true;
-                    passCounter = passCounter + 1;
-                }
-            }
-        }
+                    if (i == players[currentPosition].playerHand.size() + 1) {
+                        System.out.println("This player has picked up a card." + "\n");
+                        Card passCard = deck.playerTurnPass();
+                        players[currentPosition].playerHand.add(passCard);
+                        players[currentPosition].hasPassed = true;
+                        passCounter = passCounter + 1;
+                    }
 
-            if (!players[currentPosition].hasPassed) {
-                passCounter = 0;
             }
+
             gameOver(numberPlayers);
     }
 
@@ -1318,18 +1359,26 @@ class SuperTrumpGame {
             if (passCounter == (numberPlayers - 1)){
 
                 if (currentPosition == 0){
-                    System.out.println("You have won the hand and can change the category!" + "\n");
                     players[0].wonHand = true;
-                    printHand();
-                    firstPlayerTurn();
+
 
                 } else {
-                    System.out.println("Player has won the hand and can change the category." + "\n");
                     players[currentPosition].wonHand = true;
-                    firstBotTurn(currentPosition);
 
                 }
             }
+        }
+
+        if (players[0].wonHand){
+            System.out.println("You have won the hand!");
+            passCounter = 0;
+            players[0].wonHand = false;
+        }
+
+        if (players[currentPosition].wonHand){
+            System.out.println("Player has won the hand!");
+            passCounter = 0;
+            players[currentPosition].wonHand = false;
         }
     }
 
@@ -1338,7 +1387,7 @@ class SuperTrumpGame {
 
         for (int i = 0; i < numberPlayers; i++) {
             if (players[i].playerHand.size() == 0){
-                System.out.print("Player " + (i + 1) + " has won the game!");
+                System.out.print("Player has won the game!");
                 gameIsover = true;
                 System.exit(0);
             }
@@ -1346,6 +1395,11 @@ class SuperTrumpGame {
         }
 
         deck.checkEmptyDeck();
+
+        if (deck.emptyDeck()){
+            System.out.println("The deck is empty! There are too many cards in the players hands!");
+            System.exit(0);
+        }
 
         return gameIsover;
     }
