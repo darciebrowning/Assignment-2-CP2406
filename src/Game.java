@@ -1,3 +1,5 @@
+
+import java.io.IOException;
 import java.util.Scanner;
 
 /**
@@ -6,9 +8,19 @@ import java.util.Scanner;
  */
 
 class Game {
+    public static SuperTrumpGame game;
 
-    public static void main(String args[]) {
-
+    public static void main(String args[]) throws IOException {
+/*
+       javax.swing.SwingUtilities.invokeLater(new Runnable() {
+            public void run() {
+                try {
+                    GUI.createAndShowGUI();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }); */
         showWelcome();
         showMenu();
         int opt = getUserMenuChoice();
@@ -25,7 +37,7 @@ class Game {
 
     }
 
-    public static void startNewGame() {
+    public static void startNewGame() throws IOException {
         int numberOfPlayers = getNumberPlayers();
         SuperTrumpGame game = new SuperTrumpGame(numberOfPlayers);
         System.out.print("You have chosen to play a game with " + numberOfPlayers + " players. \n");
@@ -80,6 +92,54 @@ class Game {
             }
         }
 
+
+    }
+
+    public static void beginPlayerTurns(int firstPlayer){
+        if (firstPlayer == 1){
+            game.printHand();
+            game.firstPlayerTurn();
+        }
+        else {
+            game.firstBotTurn(firstPlayer);
+
+        }
+
+        //ensure the play starts at the right person.
+        if (firstPlayer == 1) {
+            for (int i = 1; i < game.players.length; i ++){
+                if (game.players[i].isHuman) {
+                    game.playerTurn();
+                } else {
+                    System.out.println("Player " + (i + 1) + " has played a turn:");
+                    game.botTurn(i);
+                }
+            }
+        }
+        else {
+            for (int i = firstPlayer; i < game.players.length; i ++){
+                if (game.players[i].isHuman) {
+                    game.playerTurn();
+                } else {
+                    System.out.println("Player " + (i + 1) + " has played a turn:");
+                    game.botTurn(i);
+                }
+            }
+        }
+
+        //controls the game until game over
+        while (!game.gameIsover) {
+
+            for (int i = 0; i < game.players.length; i++) {
+                if (game.players[i].isHuman) {
+                    game.playerTurn();
+                } else {
+                    System.out.println("Player " + (i + 1) + " has played a turn:");
+                    game.botTurn(i);
+                }
+
+            }
+        }
 
     }
 

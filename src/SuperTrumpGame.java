@@ -1,3 +1,4 @@
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.Scanner;
@@ -12,6 +13,7 @@ class SuperTrumpGame {
     int dealerNumber;
     Player[] players;
     public STDeck deck;
+    public GUI gui = new GUI();
     public String currentAttribute;
     public double attributeHardness;
     public double attributeSpecificGravity;
@@ -27,8 +29,7 @@ class SuperTrumpGame {
     public boolean gameIsover = false;
     public int passCounter;
 
-
-    SuperTrumpGame(int numberPlayers){
+    SuperTrumpGame(int numberPlayers) throws IOException {
         this.numberPlayers = numberPlayers;
         this.deck = new STDeck();
 
@@ -39,7 +40,7 @@ class SuperTrumpGame {
         int min = 1;
         Random generator = new Random();
         dealerNumber = generator.nextInt(NumberOfPlayers - min + 1) + min;
-
+        System.out.println("The dealer has been chosen.");
         return dealerNumber;
     }
 
@@ -54,9 +55,15 @@ class SuperTrumpGame {
             players[i] = player;
             playerHand = deck.dealCards();
             player.setPlayerHand(playerHand);
-            //System.out.println("player " + i + " " + playerHand);
+            System.out.println("player " + i + " " + playerHand);
         }
         players[0].isHuman = true;
+    }
+
+    public int getBotNumberOfCards(int currentPlayer) {
+        int numberOfBotCards;
+        numberOfBotCards = players[currentPlayer].playerHand.size();
+        return numberOfBotCards;
     }
 
     //Lets the player choose the first card to play and a category.
@@ -828,7 +835,6 @@ class SuperTrumpGame {
             Card chosenCard = players[firstPlayer].playerHand.get(cardChoice);
             System.out.println(chosenCard);
 
-
             deck.playedCards.add(players[firstPlayer].playerHand.get(cardChoice));
 
             if (chosenCard.getClass() == TrumpCard.class) {
@@ -941,6 +947,7 @@ class SuperTrumpGame {
 
         else { return startingPlayer; }
 
+        System.out.println("The first player is " + startingPlayer);
         return startingPlayer;
     }
 
@@ -1381,6 +1388,52 @@ class SuperTrumpGame {
             players[currentPosition].wonHand = false;
         }
     }
+
+    public void beginPlayerTurns(int firstPlayer) {
+        if (firstPlayer == 1) {
+            printHand();
+            firstPlayerTurn();
+        } else {
+            firstBotTurn(firstPlayer);
+
+        }
+
+        //ensure the play starts at the right person.
+        if (firstPlayer == 1) {
+            for (int i = 1; i < players.length; i++) {
+                if (players[i].isHuman) {
+                    playerTurn();
+                } else {
+                    System.out.println("Player " + (i + 1) + " has played a turn:");
+                    botTurn(i);
+                }
+            }
+        } else {
+            for (int i = firstPlayer; i < players.length; i++) {
+                if (players[i].isHuman) {
+                    playerTurn();
+                } else {
+                    System.out.println("Player " + (i + 1) + " has played a turn:");
+                    botTurn(i);
+                }
+            }
+        }
+
+        //controls the game until game over
+        while (!gameIsover) {
+
+            for (int i = 0; i < players.length; i++) {
+                if (players[i].isHuman) {
+                    playerTurn();
+                } else {
+                    System.out.println("Player " + (i + 1) + " has played a turn:");
+                    botTurn(i);
+                }
+
+            }
+        }
+    }
+
 
     //Queries for the game winning conditions and ends the game when they become true.
     private boolean gameOver(int numberPlayers) {
