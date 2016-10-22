@@ -10,9 +10,11 @@ public class GUI {
     public static STDeck deck;
     public static GUI gui;
     public Game stgame;
-    public Player player;
+    public static Player player;
     static Player[] players;
     static JLabel PlayedDeck;
+    public JPanel pane;
+    public static JLabel deckLabel;
     public static int numberOfPlayers;
 
 
@@ -55,12 +57,12 @@ public class GUI {
                 pane.remove(panel);
 
                 //Get human player and pass to playerview to view hand.
-                Player humanPlayer = game.players[0];
-                Player player1 = game.players[1];
-                Player player2 = game.players[2];
+                final Player humanPlayer = game.players[0];
+                final Player player1 = game.players[1];
+                final Player player2 = game.players[2];
                 Player player3 = game.players[3];
 
-                PlayerView view = new PlayerView(humanPlayer);
+                final PlayerView view = new PlayerView(humanPlayer);
                 view.setBackground(customColor);
 
                 try {
@@ -90,29 +92,48 @@ public class GUI {
                 //Font for labels.
                 Font font = new Font("Verdana", Font.PLAIN, 12);
 
+                JPanel Humanplayer = new JPanel(new BorderLayout());
+                pane.add(Humanplayer, BorderLayout.PAGE_END);
+
                 //Adds players cards to the screen.
-                JPanel playersHand = new JPanel(new BorderLayout());
+                final JPanel playersHand = new JPanel(new BorderLayout());
+
                 playersHand.setBackground(Color.black);
                 playersHand.add(view, BorderLayout.NORTH);
 
-                JPanel deckPanel = new JPanel();
-                deckPanel.setBackground(customColor);
-                deckPanel.setLayout(new BorderLayout());
-                deckPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-                pane.add(deckPanel, BorderLayout.CENTER);
+                JPanel passPanel = new JPanel();
+                passPanel.setBackground(customColor);
+                passPanel.setLayout(new BorderLayout());
+                passPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+                pane.add(passPanel, BorderLayout.CENTER);
+
+                JLabel deckCard = new JLabel();
+                passPanel.add(deckCard);
+                passPanel.setBackground(Color.CYAN);
 
                 //Button to click for user to pickup a card
                 JButton pass = new JButton("Pass!");
                 final SuperTrumpGame finalGame = game;
+
                 pass.addActionListener(new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent p) {
-                        new ShowCard(finalGame.playerHasPassed());
-                        pane.revalidate();
-                        pane.repaint();
+                        playersHand.removeAll();
+                        finalGame.playerHasPassed();
+
+                        playersHand.repaint();
+                        playersHand.revalidate();
+
+
+                        PlayerView view = new PlayerView(humanPlayer);
+                        view.setBackground(customColor);
+                        playersHand.add(view);
+
+                        playersHand.repaint();
+                        playersHand.revalidate();
                     }
                 });
-                deckPanel.add(pass, BorderLayout.SOUTH);
+                passPanel.add(pass, BorderLayout.SOUTH);
 
                 JPanel trumpPanel = new JPanel();
                 trumpPanel.setLayout(new GridBagLayout());
@@ -173,13 +194,15 @@ public class GUI {
                 trumpPanel.add(cleavageButton);
                 trumpPanel.add(economicValueButton);
                 trumpPanel.add(crustalAbundanceButton);
-                playersHand.add(trumpPanel, BorderLayout.SOUTH);
+                Humanplayer.add(trumpPanel, BorderLayout.SOUTH);
 
 
-                pane.add(playersHand, BorderLayout.PAGE_END);
+                Humanplayer.add(playersHand, BorderLayout.NORTH);
 
                 pane.repaint();
                 pane.revalidate();
+
+
 
             }
 
@@ -201,11 +224,13 @@ public class GUI {
 
         //Display the window.
         frame.pack();
-        frame.setSize(1200, 800);
+        frame.setExtendedState(Frame.MAXIMIZED_BOTH);
         frame.setVisible(true);
     }
 
+    public static void reloadHand(){
 
+    }
 }
 
 

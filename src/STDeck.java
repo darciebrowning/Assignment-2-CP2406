@@ -1,12 +1,8 @@
-import java.awt.*;
-import java.awt.image.BufferedImage;
+import javax.imageio.ImageIO;
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
-import javax.imageio.ImageIO;
-import java.io.File;
-import java.util.Random;
-import java.util.concurrent.ThreadLocalRandom;
 
 /**
  * Created by Darcie on 3/09/2016.

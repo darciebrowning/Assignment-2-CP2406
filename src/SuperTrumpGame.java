@@ -1,3 +1,4 @@
+import javax.swing.*;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Random;
@@ -29,6 +30,7 @@ class SuperTrumpGame {
     public String playedCardEconomicValue;
     public boolean gameIsover = false;
     public int passCounter;
+    public ImageIcon cardimageplayed;
 
     SuperTrumpGame(int numberPlayers) throws IOException {
         this.numberPlayers = numberPlayers;
@@ -69,7 +71,7 @@ class SuperTrumpGame {
     }
 
     //Lets the player choose the first card to play and a category.
-    public void firstPlayerTurn(Card card){
+    public ImageIcon firstPlayerTurn(Card card){
 
         if (!deck.playedCards.isEmpty()){
             deck.checkEmptyDeck();
@@ -242,6 +244,17 @@ class SuperTrumpGame {
             passCounter = 0;
         }
         return currentAttribute; */
+
+
+        cardimageplayed = getPlayedCardImage();
+        return cardimageplayed;
+
+    }
+
+    public ImageIcon getPlayedCardImage(){
+        Card card = deck.playedCards.get(deck.playedCards.size() - 1);
+        return card.getCardImage();
+
     }
 
 
@@ -1502,14 +1515,25 @@ class SuperTrumpGame {
         return gameIsover;
     }
 
-    public Card playerHasPassed(){
+    public void playerHasPassed(){
         System.out.println("You have picked up ");
         Card passCard = deck.playerTurnPass();
         players[0].playerHand.add(passCard);
         System.out.println(passCard);
         players[0].hasPassed = true;
         passCounter = passCounter + 1;
-        return passCard;
+
+    }
+
+    public static void runGame(){
+        for (int i = 0; i < currentGame.players.length; i++) {
+            if (currentGame.players[i].isHuman) {
+                currentGame.playerTurn();
+            } else {
+                System.out.println("Player " + (i + 1) + " has played a turn:");
+                currentGame.botTurn(i);
+            }
+        }
     }
 
 

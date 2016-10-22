@@ -48,7 +48,7 @@ public class Card {
     }
 
     public ImageIcon getCardImage(){
-        Image scaled = cardImage.getScaledInstance(130, 170, Image.SCALE_SMOOTH);
+        Image scaled = cardImage.getScaledInstance(100, 130, Image.SCALE_SMOOTH);
         return new ImageIcon(scaled);
     }
 
