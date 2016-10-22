@@ -1,37 +1,40 @@
-import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
 
 
 public class GUI {
     public static SuperTrumpGame game;
-    public int numberOfPlayers;
+    public static STDeck deck;
+    public static GUI gui;
     public Game stgame;
     public Player player;
     static Player[] players;
     static JLabel PlayedDeck;
+    public static int numberOfPlayers;
 
 
-    public static void SetupGame(final Container pane) throws IOException {
+    public static void SetupGame(final Container pane) throws IOException{
 
         final Color customColor = new Color(52, 86, 55);
         pane.setBackground(customColor);
         pane.setLayout(new BorderLayout());
 
         final JPanel panel = new JPanel(new GridBagLayout());
+
         panel.setBackground(customColor);
         pane.add(panel);
-        JLabel numberPlayers = new JLabel("How many players would you like to play with?");
+        JLabel welcomeMessage = new JLabel("Welcome to Mineral SuperTrumps! \n");
+        JLabel numberPlayers = new JLabel("How many players would you like to play in this game?");
+        panel.add(welcomeMessage);
         panel.add(numberPlayers);
         final JTextField textNumberOfPlayers = new JTextField();
 
         textNumberOfPlayers.setColumns(4);
         panel.add(textNumberOfPlayers);
+
         final JButton newGame = new JButton("New Game");
         newGame.addActionListener(new ActionListener() {
             @Override
@@ -47,48 +50,69 @@ public class GUI {
                 }
                 int dealerNumber = game.selectDealer(numberOfPlayers);
                 game.dealHand(numberOfPlayers);
-                int firstPlayer = 2;
+                int firstPlayer = 0;
 
                 pane.remove(panel);
 
                 //Get human player and pass to playerview to view hand.
                 Player humanPlayer = game.players[0];
+                Player player1 = game.players[1];
+                Player player2 = game.players[2];
+                Player player3 = game.players[3];
 
                 PlayerView view = new PlayerView(humanPlayer);
                 view.setBackground(customColor);
 
-
-                //Button to click for user to pickup a card
-                BufferedImage buttonIcon = null;
                 try {
-                    buttonIcon = ImageIO.read(new File("CardBack.jpg"));
+                    BotView view1 = new BotView(player1);
+                    pane.add(view1, BorderLayout.WEST);
+                    view1.setBackground(customColor);
                 } catch (IOException e1) {
                     e1.printStackTrace();
                 }
 
-                //Shows previously played card.
-                ImageIcon playedIcon = new ImageIcon("CardBack.jpg");
-                Image image = playedIcon.getImage();
-                Image playedImage = image.getScaledInstance(200, 250, Image.SCALE_SMOOTH);
-                ImageIcon played = new ImageIcon(playedImage);
-                JLabel icon = new JLabel(played);
+                try {
+                    BotView view2 = new BotView(player2);
+                    pane.add(view2, BorderLayout.NORTH);
+                    view2.setBackground(customColor);
+                } catch (IOException e1) {
+                    e1.printStackTrace();
+                }
+
+                try {
+                    BotView view3 = new BotView(player3);
+                    pane.add(view3, BorderLayout.EAST);
+                    view3.setBackground(customColor);
+                } catch (IOException e1) {
+                    e1.printStackTrace();
+                }
 
                 //Font for labels.
                 Font font = new Font("Verdana", Font.PLAIN, 12);
-
-                //create a container in the center of the GUI for card decks.
-                JPanel deckPanel = new JPanel();
-                deckPanel.setBackground(customColor);
-                deckPanel.setLayout(new GridBagLayout());
-                deckPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-
-                pane.add(deckPanel);
 
                 //Adds players cards to the screen.
                 JPanel playersHand = new JPanel(new BorderLayout());
                 playersHand.setBackground(Color.black);
                 playersHand.add(view, BorderLayout.NORTH);
 
+                JPanel deckPanel = new JPanel();
+                deckPanel.setBackground(customColor);
+                deckPanel.setLayout(new BorderLayout());
+                deckPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+                pane.add(deckPanel, BorderLayout.CENTER);
+
+                //Button to click for user to pickup a card
+                JButton pass = new JButton("Pass!");
+                final SuperTrumpGame finalGame = game;
+                pass.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent p) {
+                        new ShowCard(finalGame.playerHasPassed());
+                        pane.revalidate();
+                        pane.repaint();
+                    }
+                });
+                deckPanel.add(pass, BorderLayout.SOUTH);
 
                 JPanel trumpPanel = new JPanel();
                 trumpPanel.setLayout(new GridBagLayout());
@@ -96,10 +120,51 @@ public class GUI {
 
 
                 JButton hardnessButton = new JButton("Hardness");
+                final SuperTrumpGame finalGame1 = game;
+                hardnessButton.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent h) {
+                        SuperTrumpGame.currentGame.currentAttribute = "Hardness";
+                        finalGame1.getAttribute("Hardness");
+
+                    }
+                });
                 JButton specificGravityButton = new JButton("Specific Gravity");
+                specificGravityButton.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent sp) {
+                        SuperTrumpGame.currentGame.currentAttribute = "Specific Gravity";
+                        finalGame1.getAttribute("Specific Gravity");
+
+                    }
+                });
                 JButton cleavageButton = new JButton("Cleavage");
+                cleavageButton.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent cl) {
+                        SuperTrumpGame.currentGame.currentAttribute = "Cleavage";
+                        finalGame1.getAttribute("Cleavage");
+
+                    }
+                });
                 JButton economicValueButton = new JButton("Economic Value");
+                economicValueButton.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent ev) {
+                        SuperTrumpGame.currentGame.currentAttribute = "Economic Value";
+                        finalGame1.getAttribute("Economic Value");
+
+                    }
+                });
                 JButton crustalAbundanceButton = new JButton("Crustal Abundance");
+                crustalAbundanceButton.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent ca) {
+                        SuperTrumpGame.currentGame.currentAttribute = "Crustal Abundance";
+                        finalGame1.getAttribute("Crustal Abundance");
+
+                    }
+                });
 
 
                 trumpPanel.setBackground(customColor);
@@ -110,7 +175,7 @@ public class GUI {
                 trumpPanel.add(crustalAbundanceButton);
                 playersHand.add(trumpPanel, BorderLayout.SOUTH);
 
-                pane.add(deckPanel, BorderLayout.CENTER);
+
                 pane.add(playersHand, BorderLayout.PAGE_END);
 
                 pane.repaint();
@@ -119,8 +184,10 @@ public class GUI {
             }
 
         });
+
         panel.add(newGame);
     }
+
 
 
     public static void main(String args[]) throws IOException {
@@ -134,9 +201,11 @@ public class GUI {
 
         //Display the window.
         frame.pack();
-        frame.setSize(800, 800);
+        frame.setSize(1200, 800);
         frame.setVisible(true);
     }
+
+
 }
 
 

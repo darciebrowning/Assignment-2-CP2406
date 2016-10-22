@@ -49,7 +49,7 @@ class Game {
 
         if (firstPlayer == 1){
             game.printHand();
-            game.firstPlayerTurn();
+         //   game.firstPlayerTurn();
         }
         else {
             game.firstBotTurn(firstPlayer);
@@ -92,54 +92,6 @@ class Game {
             }
         }
 
-
-    }
-
-    public static void beginPlayerTurns(int firstPlayer){
-        if (firstPlayer == 1){
-            game.printHand();
-            game.firstPlayerTurn();
-        }
-        else {
-            game.firstBotTurn(firstPlayer);
-
-        }
-
-        //ensure the play starts at the right person.
-        if (firstPlayer == 1) {
-            for (int i = 1; i < game.players.length; i ++){
-                if (game.players[i].isHuman) {
-                    game.playerTurn();
-                } else {
-                    System.out.println("Player " + (i + 1) + " has played a turn:");
-                    game.botTurn(i);
-                }
-            }
-        }
-        else {
-            for (int i = firstPlayer; i < game.players.length; i ++){
-                if (game.players[i].isHuman) {
-                    game.playerTurn();
-                } else {
-                    System.out.println("Player " + (i + 1) + " has played a turn:");
-                    game.botTurn(i);
-                }
-            }
-        }
-
-        //controls the game until game over
-        while (!game.gameIsover) {
-
-            for (int i = 0; i < game.players.length; i++) {
-                if (game.players[i].isHuman) {
-                    game.playerTurn();
-                } else {
-                    System.out.println("Player " + (i + 1) + " has played a turn:");
-                    game.botTurn(i);
-                }
-
-            }
-        }
 
     }
 

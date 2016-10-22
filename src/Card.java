@@ -54,7 +54,7 @@ public class Card {
 
     public ImageIcon getCardBack() throws IOException {
         BufferedImage cardBack = ImageIO.read(new File("CardBack.jpg"));
-        Image scaled = cardBack.getScaledInstance(130, 170, Image.SCALE_SMOOTH);
+        Image scaled = cardBack.getScaledInstance(40, 70, Image.SCALE_SMOOTH);
         return new ImageIcon(scaled);
     }
 
