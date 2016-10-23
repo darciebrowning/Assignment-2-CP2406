@@ -14,7 +14,7 @@ public class GUI {
     static Player[] players;
     static JLabel PlayedDeck;
     public JPanel pane;
-    public static JLabel deckLabel;
+    public static JLabel deckCard = new JLabel("Please play a card.");
     public static int numberOfPlayers;
 
 
@@ -28,11 +28,18 @@ public class GUI {
 
         panel.setBackground(customColor);
         pane.add(panel);
+        final Font f = new Font("Arial", Font.PLAIN, 18);
         JLabel welcomeMessage = new JLabel("Welcome to Mineral SuperTrumps! \n");
+        welcomeMessage.setFont(f);
+        welcomeMessage.setForeground(Color.white);
         JLabel numberPlayers = new JLabel("How many players would you like to play in this game?");
+        numberPlayers.setFont(f);
+        numberPlayers.setForeground(Color.white);
         panel.add(welcomeMessage);
         panel.add(numberPlayers);
         final JTextField textNumberOfPlayers = new JTextField();
+        final JLabel categoryLabel = new JLabel("Current Category: Hardness");
+        categoryLabel.setFont(f);
 
         textNumberOfPlayers.setColumns(4);
         panel.add(textNumberOfPlayers);
@@ -41,8 +48,10 @@ public class GUI {
         newGame.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+
                 String numberPlayers = textNumberOfPlayers.getText();
                 int numberOfPlayers = Integer.parseInt(numberPlayers);
+
                 //Get the number of players from the input box
                 SuperTrumpGame game = null;
                 try {
@@ -107,9 +116,11 @@ public class GUI {
                 passPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
                 pane.add(passPanel, BorderLayout.CENTER);
 
-                JLabel deckCard = new JLabel();
+                deckCard.setFont(f);
+                deckCard.setForeground(Color.white);
+                deckCard.setHorizontalAlignment(JLabel.CENTER);
                 passPanel.add(deckCard);
-                passPanel.setBackground(Color.CYAN);
+
 
                 //Button to click for user to pickup a card
                 JButton pass = new JButton("Pass!");
@@ -121,10 +132,6 @@ public class GUI {
                         playersHand.removeAll();
                         finalGame.playerHasPassed();
 
-                        playersHand.repaint();
-                        playersHand.revalidate();
-
-
                         PlayerView view = new PlayerView(humanPlayer);
                         view.setBackground(customColor);
                         playersHand.add(view);
@@ -134,6 +141,9 @@ public class GUI {
                     }
                 });
                 passPanel.add(pass, BorderLayout.SOUTH);
+                categoryLabel.setHorizontalAlignment(JLabel.CENTER);
+                categoryLabel.setForeground(Color.white);
+                passPanel.add(categoryLabel, BorderLayout.PAGE_START);
 
                 JPanel trumpPanel = new JPanel();
                 trumpPanel.setLayout(new GridBagLayout());
@@ -146,6 +156,7 @@ public class GUI {
                     @Override
                     public void actionPerformed(ActionEvent h) {
                         SuperTrumpGame.currentGame.currentAttribute = "Hardness";
+                        categoryLabel.setText("Current Category: Hardness");
                         finalGame1.getAttribute("Hardness");
 
                     }
@@ -155,6 +166,7 @@ public class GUI {
                     @Override
                     public void actionPerformed(ActionEvent sp) {
                         SuperTrumpGame.currentGame.currentAttribute = "Specific Gravity";
+                        categoryLabel.setText("Current Category: Specific Gravity");
                         finalGame1.getAttribute("Specific Gravity");
 
                     }
@@ -164,6 +176,7 @@ public class GUI {
                     @Override
                     public void actionPerformed(ActionEvent cl) {
                         SuperTrumpGame.currentGame.currentAttribute = "Cleavage";
+                        categoryLabel.setText("Current Category: Cleavage");
                         finalGame1.getAttribute("Cleavage");
 
                     }
@@ -173,6 +186,7 @@ public class GUI {
                     @Override
                     public void actionPerformed(ActionEvent ev) {
                         SuperTrumpGame.currentGame.currentAttribute = "Economic Value";
+                        categoryLabel.setText("Current Category: Economic Value");
                         finalGame1.getAttribute("Economic Value");
 
                     }
@@ -182,6 +196,7 @@ public class GUI {
                     @Override
                     public void actionPerformed(ActionEvent ca) {
                         SuperTrumpGame.currentGame.currentAttribute = "Crustal Abundance";
+                        categoryLabel.setText("Current Category: Crustal Abundance");
                         finalGame1.getAttribute("Crustal Abundance");
 
                     }
@@ -194,10 +209,8 @@ public class GUI {
                 trumpPanel.add(cleavageButton);
                 trumpPanel.add(economicValueButton);
                 trumpPanel.add(crustalAbundanceButton);
-                Humanplayer.add(trumpPanel, BorderLayout.SOUTH);
-
-
                 Humanplayer.add(playersHand, BorderLayout.NORTH);
+                Humanplayer.add(trumpPanel, BorderLayout.SOUTH);
 
                 pane.repaint();
                 pane.revalidate();
@@ -210,8 +223,6 @@ public class GUI {
 
         panel.add(newGame);
     }
-
-
 
     public static void main(String args[]) throws IOException {
 
@@ -228,8 +239,30 @@ public class GUI {
         frame.setVisible(true);
     }
 
-    public static void reloadHand(){
+    public void addCard(Card card) {
+        deckCard.setText("");
+        deckCard.setHorizontalAlignment(JLabel.CENTER);
+        ImageIcon cardImg = card.getCardImageDeck();
+        deckCard.setIcon(cardImg);
+        deckCard.repaint();
+        deckCard.revalidate();
+    }
 
+    public void rungame(int firstPlayer) throws InterruptedException {
+
+
+        for (int i = firstPlayer; i < SuperTrumpGame.currentGame.players.length; i ++){
+            if (SuperTrumpGame.currentGame.players[i].isHuman) {
+                SuperTrumpGame.currentGame.playerTurn();
+            } else {
+                System.out.println("Player " + (i + 1) + " has played a turn:");
+                Card bot = SuperTrumpGame.currentGame.botTurn(i);
+                addCard(bot);
+                deckCard.repaint();
+                deckCard.revalidate();
+
+            }
+        }
     }
 }
 

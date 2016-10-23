@@ -71,5 +71,9 @@ public class Card {
     }
 
 
+    public ImageIcon getCardImageDeck() {
+        Image scaled = cardImage.getScaledInstance(250, 300, Image.SCALE_SMOOTH);
+        return new ImageIcon(scaled);
+    }
 }
 
